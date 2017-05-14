@@ -3,9 +3,11 @@
 </template>
 
 <script>
+	import vSelect from 'vue-select'
 	export default {
 		name: 'accountDescriptions',
-		methods: {
+		components: {
+			vSelect
 		}
 	}
 </script>

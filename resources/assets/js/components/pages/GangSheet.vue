@@ -2,6 +2,7 @@
     <div>
         <h1 class="page-title"> Gang Sheet</h1>
         <!-- <datepicker v:model="" :format="'MM/dd/yyyy'"></datepicker> -->
+        <account-descriptions></account-descriptions>
 
         <div class="row">
             <div class="portlet light">
@@ -199,12 +200,12 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
-    import AccountDescriptions from './components/AccountDescriptions.vue';
+    import accountDescriptions from './components/AccountDescriptionsDropDown.vue';
 
     export default {
         components: {
             Datepicker,
-            AccountDescriptions
+            accountDescriptions
         }
     }
 </script>

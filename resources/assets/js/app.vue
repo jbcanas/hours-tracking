@@ -22,14 +22,12 @@
 	import topBar from './components/partials/TopBar.vue'
 	import sideBar from './components/partials/SideBar.vue'
 	import footerSection from './components/partials/Footer.vue'
-	import select2 from 'vue-select'
 
 	export default {
 		components: {
 			topBar,
 			sideBar,
-			footerSection,
-			'v-select': select2
+			footerSection
 		},
 		computed: {
 			sidebarHidden() {
