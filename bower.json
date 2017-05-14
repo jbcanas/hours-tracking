@@ -1,0 +1,10 @@
+{
+  "name": "ILWU Dispatch",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "open-sans": "^1.1.0",
+    "font-awesome": "^4.7.0",
+    "simple-line-icons": "^2.4.1",
+    "ladda": "^1.0.0"
+  }
+}
