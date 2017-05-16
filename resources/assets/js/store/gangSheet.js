@@ -1,6 +1,6 @@
 export default {
 	state: {
-		gangSheet: {
+		jobInfo: {
 			userId: 0,
 			accountDescription: '',
 			jobName: '',
@@ -25,12 +25,13 @@ export default {
 		jobNames: []
 	},
 	actions: {
-		loadData({commit}) {
-			axios.post('/api/gangSheet')
-				.then(function(response) {
-					commit('setAccountDescriptions', response.data.accountDescriptions);
-					commit('setJobNames', response.data.jobNames);
-				});
+		loadData({commit}, payload) {
+			axios.post('/api/gangSheet', {
+				type: payload.type
+			})
+			.then(function(response) {
+				commit(payload.type, response.data);
+			});
 		}
 	},
 	mutations: {
@@ -39,6 +40,9 @@ export default {
 		},
 		setJobNames(state, payload) {
 			state.jobNames = payload;
+		},
+		updateJobInfo(state, payload) {
+			state.jobInfo[payload.type] = payload.value;
 		}
 	}
 

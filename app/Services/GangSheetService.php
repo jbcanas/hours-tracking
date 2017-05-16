@@ -13,9 +13,6 @@ class GangSheetService {
 
 	public function index(Request $request)
 	{
-		return [
-			'accountDescriptions' => AccountDescription::all(),
-			'jobNames' => JobName::all(),
-		];
+		return $request->type == 'setAccountDescriptions' ? AccountDescription::all() : JobName::all();
 	}
 }

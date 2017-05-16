@@ -27,7 +27,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Account Description</label>
                                         <div class="col-md-9">
-                                            <account-descriptions></account-descriptions>
+                                            <job-type type="accountDescription"></job-type>
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Job Name</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control">
+                                            <job-type type="jobName"></job-type>
                                         </div>
                                     </div>
                                 </div>
@@ -199,12 +199,17 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
-    import accountDescriptions from './components/AccountDescriptionsDropDown.vue';
+    import jobType from './components/JobTypeDropDown.vue';
 
     export default {
         components: {
             Datepicker,
-            accountDescriptions
+            jobType
+        },
+        computed: {
+            jobInfo() {
+                return this.$store.state.gangSheet.jobInfo;
+            }
         }
     }
 </script>
