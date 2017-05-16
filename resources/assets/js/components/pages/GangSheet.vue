@@ -2,7 +2,6 @@
     <div>
         <h1 class="page-title"> Gang Sheet</h1>
         <!-- <datepicker v:model="" :format="'MM/dd/yyyy'"></datepicker> -->
-        <account-descriptions></account-descriptions>
 
         <div class="row">
             <div class="portlet light">
@@ -28,7 +27,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Account Description</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control">
+                                            <account-descriptions></account-descriptions>
                                         </div>
                                     </div>
                                 </div>
