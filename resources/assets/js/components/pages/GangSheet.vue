@@ -44,7 +44,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-3">Job Name</label>
+                                        <label class="control-label col-md-3">{{ jobNameLabel }}</label>
                                         <div class="col-md-9">
                                             <job-type type="jobName"></job-type>
                                         </div>
@@ -189,6 +189,8 @@
                                 
                                 </div>
                             </div>
+                           
+                            <gangsheet-employees></gangsheet-employees>
                         </div>
                     </form>
                 </div>
@@ -200,15 +202,20 @@
 <script>
     import Datepicker from 'vuejs-datepicker';
     import jobType from './components/JobTypeDropDown.vue';
+    import GangsheetEmployees from './components/GangsheetEmployees.vue';
 
     export default {
         components: {
             Datepicker,
-            jobType
+            jobType,
+            GangsheetEmployees
         },
         computed: {
             jobInfo() {
                 return this.$store.state.gangSheet.jobInfo;
+            },
+            jobNameLabel() {
+                return this.$store.state.gangSheet.jobInfo.accountDescription.name != 'TRAINING' ? 'Job Name' : 'Training Type';
             }
         }
     }
