@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		
+		<jobpos></jobpos>
 		<table class="table table-condensed table-hover table-bordered">
 	        <thead>
 	            <tr>
@@ -49,12 +49,12 @@
 </template>
 
 <script>
-	import JobPositionDropDown from './components/JobPositionDropDown.vue';
+	import JobPositionDropDown from './JobPositionDropDown.vue';
 
 	export default {
 		name: 'gangSheetEmployees',
 		components: {
-			JobPositionDropDown
+			jobpos: JobPositionDropDown
 		},
 		computed: {
 			jobInfo() {

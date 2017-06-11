@@ -6,7 +6,7 @@
 	import vSelect from 'vue-select';
 
 	export default {
-		name: 'jobPositionDropDown',
+		name: 'jobpos',
 		components: {
 			vSelect
 		},
