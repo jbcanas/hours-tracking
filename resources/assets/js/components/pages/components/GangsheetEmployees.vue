@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		<jobpos></jobpos>
+		<jobpos classContainer="jobPositionContainer"></jobpos>
 		<table class="table table-condensed table-hover table-bordered">
 	        <thead>
 	            <tr>
@@ -25,8 +25,8 @@
 	        </thead>
 	        <tbody>
 	        	<tr v-for="employee in jobInfo.employees">
-	        		<td>{{ employee.employee_number }}</td>
-	        		<td>{{ employee.company_number }}</td>
+	        		<td>{{ employee.employee_ }}</td>
+	        		<td>{{ employee.company_ }}</td>
 	        		<td>{{ employee.first_name }}</td>
 	        		<td>{{ employee.last_name }}</td>
 	        		<td>{{ employee.office_use }}</td>
@@ -63,7 +63,7 @@
 		},
 		methods: {
 			totalHrs(item) {
-            	return Number(item.st) + Number(item.ot) + Number(item.pot) + Number(item.st_other) + Number(item.ot_other) + Number(item.pot_other) + Number(item.dt);
+            	return (item.st) + (item.ot) + (item.pot) + (item.st_other) + (item.ot_other) + (item.pot_other) + (item.dt);
             }
 		}
 	}

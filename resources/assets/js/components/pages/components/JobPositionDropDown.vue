@@ -1,5 +1,7 @@
 <template>
-	<v-select v-model="jobPositionModel" label="name" :options="list"></v-select>
+	<div v-bind:class="classContainerProp">
+		<v-select v-model="jobPositionModel" label="name" :options="list"></v-select>
+	</div>
 </template>
 
 <script>
@@ -10,9 +12,10 @@
 		components: {
 			vSelect
 		},
+		props: ['classContainer'],
 		computed: {
 			list() {
-				return this.$store.state.jobPositions;
+				return this.$store.state.gangSheet.jobPositions;
 			},
 			jobPositionModel: {
 				get() {
@@ -24,6 +27,9 @@
 						value: value
 					});
 				}
+			},
+			classContainerProp() {
+				return this.$props.classContainer;
 			}
 		},
 		mounted() {
