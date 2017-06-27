@@ -20,12 +20,7 @@ export default {
 			earlyStart: '',
 			moves: '',
 			gang: '',
-			employees: [
-				{
-					st: 1,
-					ot: 2
-				}
-			]
+			employees: []
 		},
 		accountDescriptions: [],
 		jobNames: [],
@@ -263,6 +258,12 @@ export default {
 		},
 		updateJobInfo(state, payload) {
 			state.jobInfo[payload.type] = payload.value;
+		},
+		addEmployee(state, payload) {
+			state.jobInfo.employees.push(payload);
+		},
+		removeEmployee(state, payload) {
+			state.jobInfo.employees.splice(payload.key, 1);
 		}
 	}
 
