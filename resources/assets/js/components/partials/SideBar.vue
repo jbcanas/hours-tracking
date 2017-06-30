@@ -22,12 +22,15 @@
 	                    </div>
 	                </form>
 	            </li>
-	            <li v-for="menu in menus" 
-	            class="nav-item" 
-	            :class="menu.active ? 'active open' : ''"
-	            @click="toggleNav(menu.id)">
+	            <router-link v-for="menu in menus" 
+	            tag="li"
+	            :to="{path: menu.items.length > 0 ? '/' : menu.url}" 
+	            class="nav-item"
+
+	            :class="menu.active ? 'active open' : ''">
 	                <a class="nav-link"
-	                v-bind:href="menu.items.length > 0 ? 'javascript:;' : '/#'+ menu.url" >
+	                v-bind:href="menu.items.length > 0 ? 'javascript:;' : '/#'+ menu.url" 
+	                @click="toggleNav()">
 	                    <i class="fa" :class="menu.icon"></i>
 	                    <span class="title">{{ menu.name }}</span>
 	                    <span v-show="menu.items.length > 0" 
@@ -39,13 +42,14 @@
 	                <ul v-if="menu.items.length > 0" class="sub-menu">
 	                    <li class="nav-item" 
 	                    v-for="item in menu.items">
-	                        <a v-bind:href="item.url == '' ? 'javascript:;' : '/#'+ item.url" 
+	                    	<router-link :to="{path: item.url}" class="nav-link">{{ item.name }}</router-link>
+	                        <!-- <a v-bind:href="item.url == '' ? 'javascript:;' : '/#'+ item.url" 
 	                        class="nav-link">
 	                            <span class="title">{{ item.name }}</span>
-	                        </a>
+	                        </a> -->
 	                    </li>
 	                </ul>
-	            </li>
+	            </router-link>
 	        </ul>
 	    </div>
 	</div>
@@ -59,11 +63,20 @@
 		computed: {
 			menus() {
 				return this.$store.state.sidebar.menus;
+			},
+			arrowOpen() {
+
 			} 
 		},
 		methods: {
 			toggleNav(id) {
+				console.log(id);
 				this.$store.commit('toggleMenuActiveProp', id);
+			},
+			handleParentMenu(data) {
+				if(data.items.length == 0 && data.active) return 'active';
+
+				return '';
 			}
 		}
 	}

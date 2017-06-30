@@ -13,19 +13,22 @@ const state = {
 		    name: 'Reports',
 		    icon: 'fa-archive',
 		    url: '',
-		    active: true,
+		    active: false,
 		    items: [
 		        {
 		            name: 'Employee Hours Search',
-		            url: '/companyJobs'
+		            url: '/companyJobs',
+		            active: false,
 		        },
 		        {
 		            name: 'Company Jobs Report',
-		            url: '/weekly'
+		            url: '/weekly',
+		            active: false,
 		        },
 		        {
 		            name: 'Port Hours Report',
-		            url: '/weekly'
+		            url: '/weekly',
+		            active: false,
 		        },
 		    ]
 		}
