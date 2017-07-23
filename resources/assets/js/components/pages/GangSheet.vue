@@ -7,15 +7,15 @@
             <div class="portlet light">
                 <div class="portlet-title">
                     <div class="actions pull-left">
-                        <a href="javascript:;" class="btn btn-primary">
+                        <a href="javascript:" class="btn btn-primary">
                             <i class="fa fa-plus"></i> New</a>
-                        <a href="javascript:;" class="btn btn-primary">
+                        <a href="javascript:" class="btn btn-primary">
                             <i class="fa fa-search"></i> Find </a>
-                        <a href="javascript:;" class="btn btn-danger">
+                        <a href="javascript:" class="btn btn-danger">
                             <i class="fa fa-minus"></i> Cancel </a>
                     </div>
                     <div class="actions pull-right">
-                        <a href="javascript:;" class="btn btn-primary">
+                        <a href="javascript:" class="btn btn-primary">
                             <i class="fa fa-external-link"></i> Submit</a>
                     </div>
                 </div>

@@ -22,34 +22,23 @@
 	                    </div>
 	                </form>
 	            </li>
-	            <router-link v-for="menu in menus" 
-	            tag="li"
-	            :to="{path: menu.items.length > 0 ? '/' : menu.url}" 
-	            class="nav-item"
+				
+	            <menu-single menu-name="Gang Sheet" menu-url="/gangSheet" menu-icon="fa-newspaper-o"></menu-single>
 
-	            :class="menu.active ? 'active open' : ''">
-	                <a class="nav-link"
-	                v-bind:href="menu.items.length > 0 ? 'javascript:;' : '/#'+ menu.url" 
-	                @click="toggleNav()">
-	                    <i class="fa" :class="menu.icon"></i>
-	                    <span class="title">{{ menu.name }}</span>
-	                    <span v-show="menu.items.length > 0" 
-	                    	class="arrow" 
-	                    	:class="menu.active ? 'open' : 'closed'"></span>
-	                    <span v-show="menu.active" 
-	                    	class="selected"></span>
+	            <li 
+				 class="nav-item"
+				 :class="activateMenu('reports', 'active')">
+	                <a class="nav-link">
+	                    <i class="fa fa-archive"></i>
+	                    <span class="title">Reports</span>
+						<span class="arrow" :class="activateMenu('reports', 'open')"></span>
 	                </a>
-	                <ul v-if="menu.items.length > 0" class="sub-menu">
-	                    <li class="nav-item" 
-	                    v-for="item in menu.items">
-	                    	<router-link :to="{path: item.url}" class="nav-link">{{ item.name }}</router-link>
-	                        <!-- <a v-bind:href="item.url == '' ? 'javascript:;' : '/#'+ item.url" 
-	                        class="nav-link">
-	                            <span class="title">{{ item.name }}</span>
-	                        </a> -->
-	                    </li>
+					<ul 
+					 class="sub-menu"
+					 :class="activateMenu('reports', 'displayBlock')">
+					 	<menu-single menu-name="Company Jobs" menu-url="/companyJobs" menu-icon=""></menu-single>
 	                </ul>
-	            </router-link>
+				</li>
 	        </ul>
 	    </div>
 	</div>
@@ -60,6 +49,20 @@
 
 	export default {
 		name: 'side-bar',
+		components: {
+			'menu-single': {
+				props: ['menuName', 'menuUrl', 'menuIcon'],
+				template: `<router-link
+	             tag="li"
+	             :to="menuUrl" 
+	             class="nav-item">
+	                <a class="nav-link">
+	                    <i v-if="menuIcon != ''" class="fa" :class="menuIcon"></i>
+	                    <span class="title">{{ menuName }}</span>
+	                </a>
+	            </router-link>`
+			}
+		},
 		computed: {
 			menus() {
 				return this.$store.state.sidebar.menus;
@@ -69,14 +72,11 @@
 			} 
 		},
 		methods: {
-			toggleNav(id) {
-				console.log(id);
-				this.$store.commit('toggleMenuActiveProp', id);
+			activateMenu(url, activeClass) {
+				return (this.$route.path.indexOf(url) > -1) ? activeClass : '';
 			},
-			handleParentMenu(data) {
-				if(data.items.length == 0 && data.active) return 'active';
+			toggleMenu() {
 
-				return '';
 			}
 		}
 	}
