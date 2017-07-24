@@ -22,23 +22,64 @@
 	                    </div>
 	                </form>
 	            </li>
-				
-	            <menu-single menu-name="Gang Sheet" menu-url="/gangSheet" menu-icon="fa-newspaper-o"></menu-single>
-
-	            <li 
-				 class="nav-item"
-				 :class="activateMenu('reports', 'active')">
-	                <a class="nav-link">
-	                    <i class="fa fa-archive"></i>
-	                    <span class="title">Reports</span>
-						<span class="arrow" :class="activateMenu('reports', 'open')"></span>
-	                </a>
-					<ul 
-					 class="sub-menu"
-					 :class="activateMenu('reports', 'displayBlock')">
-					 	<menu-single menu-name="Company Jobs" menu-url="/companyJobs" menu-icon=""></menu-single>
-	                </ul>
-				</li>
+				<template v-for="(menu, key) in menus">
+					<template v-if="menu.items.length < 1">
+						<router-link
+						:key="key"
+						tag="li"
+						:to="{path: menu.items.length > 0 ? 'javascript:;' : menu.url}" 
+						class="nav-item">
+							<a class="nav-link">
+								<i class="fa" :class="menu.icon"></i>
+								<span class="title">{{ menu.name }}</span>
+								<span v-show="menu.active" 
+									class="selected"></span>
+								<span v-show="menu.items.length > 0" 
+									class="arrow" 
+									:class="menu.active ? 'open' : 'closed'"></span>
+							</a>
+							<ul v-if="menu.items.length > 0" class="sub-menu">
+								<router-link 
+								tag="li"
+								v-for="(item, key) in menu.items"
+								:key="key"
+								:to="item.url"
+								class="nav-item">
+									<a class="nav-link">{{ item.name }}</a>
+								</router-link>
+							</ul>
+						</router-link>
+					</template>
+					<template v-else>
+						<li
+						:key="key"
+						:to="menu.url" 
+						class="nav-item">
+							<a class="nav-link">
+								<i class="fa" :class="menu.icon"></i>
+								<span class="title">{{ menu.name }}</span>
+								<span v-show="menu.active" 
+									class="selected"></span>
+								<span v-show="menu.items.length > 0" 
+									class="arrow" 
+									:class="menu.active ? 'open' : 'closed'"></span>
+							</a>
+							<ul v-if="menu.items.length > 0" class="sub-menu">
+								<router-link 
+								tag="li"
+								v-for="(item, key) in menu.items"
+								:key="key"
+								:to="item.url"
+								class="nav-item">
+									<a class="nav-link">{{ item.name }}</a>
+								</router-link>
+							</ul>
+						</li>
+						
+					</template>
+					
+				</template>
+	            
 	        </ul>
 	    </div>
 	</div>
@@ -50,17 +91,12 @@
 	export default {
 		name: 'side-bar',
 		components: {
-			'menu-single': {
-				props: ['menuName', 'menuUrl', 'menuIcon'],
+			'with-router': {
 				template: `<router-link
-	             tag="li"
-	             :to="menuUrl" 
-	             class="nav-item">
-	                <a class="nav-link">
-	                    <i v-if="menuIcon != ''" class="fa" :class="menuIcon"></i>
-	                    <span class="title">{{ menuName }}</span>
-	                </a>
-	            </router-link>`
+				:key="key"
+				tag="li"
+				:to="{path: menu.items.length > 0 ? 'javascript:;' : menu.url}" 
+				class="nav-item"></router-link>`
 			}
 		},
 		computed: {
@@ -72,11 +108,13 @@
 			} 
 		},
 		methods: {
-			activateMenu(url, activeClass) {
-				return (this.$route.path.indexOf(url) > -1) ? activeClass : '';
+			toggleNav(id) {
+				this.$store.commit('toggleMenuActiveProp', id);
 			},
-			toggleMenu() {
+			handleParentMenu(data) {
+				if(data.items.length == 0 && data.active) return 'active';
 
+				return '';
 			}
 		}
 	}
