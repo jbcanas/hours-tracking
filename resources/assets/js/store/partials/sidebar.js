@@ -16,17 +16,17 @@ const state = {
 		    active: false,
 		    items: [
 		        {
-		            name: 'Employee Hours Search',
+		            name: 'Company Jobs',
 		            url: '/companyJobs',
 		            active: false,
 		        },
 		        {
-		            name: 'Company Jobs Report',
+		            name: 'Employee Jobs',
 		            url: '/weekly',
 		            active: false,
 		        },
 		        {
-		            name: 'Port Hours Report',
+		            name: 'Port Hours',
 		            url: '/weekly',
 		            active: false,
 		        },
