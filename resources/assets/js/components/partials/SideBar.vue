@@ -27,7 +27,7 @@
 						<router-link
 						:key="key"
 						tag="li"
-						:to="{path: menu.items.length > 0 ? 'javascript:;' : menu.url}" 
+						:to="menu.url" 
 						class="nav-item">
 							<a class="nav-link">
 								<i class="fa" :class="menu.icon"></i>
@@ -54,6 +54,8 @@
 						<li
 						:key="key"
 						:to="menu.url" 
+						@click="toggleNav(menu.id)"
+						:class="{open: menu.active}"
 						class="nav-item">
 							<a class="nav-link">
 								<i class="fa" :class="menu.icon"></i>
@@ -62,9 +64,11 @@
 									class="selected"></span>
 								<span v-show="menu.items.length > 0" 
 									class="arrow" 
-									:class="menu.active ? 'open' : 'closed'"></span>
+									:class="{open: menu.active}"></span>
 							</a>
-							<ul v-if="menu.items.length > 0" class="sub-menu">
+							<ul v-if="menu.items.length > 0" 
+							 class="sub-menu"
+							 :class="{show: menu.active}">
 								<router-link 
 								tag="li"
 								v-for="(item, key) in menu.items"
@@ -102,19 +106,12 @@
 		computed: {
 			menus() {
 				return this.$store.state.sidebar.menus;
-			},
-			arrowOpen() {
-
-			} 
+			}
 		},
 		methods: {
 			toggleNav(id) {
-				this.$store.commit('toggleMenuActiveProp', id);
-			},
-			handleParentMenu(data) {
-				if(data.items.length == 0 && data.active) return 'active';
-
-				return '';
+				this.$store.dispatch('toggleMenuActiveProp', id);
+				// console.log(id, this.$refs[id].className);
 			}
 		}
 	}

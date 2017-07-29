@@ -17,26 +17,30 @@ const state = {
 		    items: [
 		        {
 		            name: 'Company Jobs',
-		            url: '/companyJobs',
-		            active: false,
+		            url: '/companyJobs'
 		        },
 		        {
 		            name: 'Employee Jobs',
-		            url: '/weekly',
-		            active: false,
+		            url: '/weekly'
 		        },
 		        {
 		            name: 'Port Hours',
-		            url: '/weekly',
-		            active: false,
+		            url: '/weekly'
 		        },
 		    ]
 		}
 	]
 }
 
+const actions = {
+	toggleMenuActiveProp({commit, state}, id) {
+		const menu = _.find(state.menus, {id: id});
+		menu.active = ! menu.active;
+	}
+}
+
 const mutations = {
-	toggleMenuActiveProp(state, id) {
+	toggleActiveState(state, id) {
 		const menu = _.find(state.menus, {id: id});
 		menu.active = ! menu.active;
 	}
