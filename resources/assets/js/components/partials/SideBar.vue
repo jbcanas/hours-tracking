@@ -28,6 +28,7 @@
 						:key="key"
 						tag="li"
 						:to="menu.url" 
+						@click.native="activateHighlight(menu.id)"
 						class="nav-item">
 							<a class="nav-link">
 								<i class="fa" :class="menu.icon"></i>
@@ -54,13 +55,13 @@
 						<li
 						:key="key"
 						:to="menu.url" 
-						@click="toggleNav(menu.id)"
-						:class="{open: menu.active}"
+						:class="{open: menu.active, active: menu.highlight}"
 						class="nav-item">
-							<a class="nav-link">
+							<a class="nav-link"
+							 @click="toggleNav(menu.id)">
 								<i class="fa" :class="menu.icon"></i>
 								<span class="title">{{ menu.name }}</span>
-								<span v-show="menu.active" 
+								<span v-show="menu.highlight" 
 									class="selected"></span>
 								<span v-show="menu.items.length > 0" 
 									class="arrow" 
@@ -68,12 +69,13 @@
 							</a>
 							<ul v-if="menu.items.length > 0" 
 							 class="sub-menu"
-							 :class="{show: menu.active}">
+							 :class="menu.active ? 'show' : 'hide'">
 								<router-link 
 								tag="li"
 								v-for="(item, key) in menu.items"
 								:key="key"
 								:to="item.url"
+								@click.native="activateHighlight(menu.id)"
 								class="nav-item">
 									<a class="nav-link">{{ item.name }}</a>
 								</router-link>
@@ -110,8 +112,10 @@
 		},
 		methods: {
 			toggleNav(id) {
-				this.$store.dispatch('toggleMenuActiveProp', id);
-				// console.log(id, this.$refs[id].className);
+				this.$store.dispatch('toggleMenu', id);
+			},
+			activateHighlight(id) {
+				this.$store.dispatch('activateHighlight', id);
 			}
 		}
 	}

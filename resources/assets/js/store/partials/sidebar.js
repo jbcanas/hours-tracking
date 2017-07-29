@@ -6,6 +6,7 @@ const state = {
 		    icon: 'fa-newspaper-o',
 		    url: '/gangSheet',
 		    active: false,
+		    highlight: false,
 		    items: []
 		},
 		{
@@ -14,6 +15,7 @@ const state = {
 		    icon: 'fa-archive',
 		    url: '',
 		    active: false,
+		    highlight: false,
 		    items: [
 		        {
 		            name: 'Company Jobs',
@@ -33,9 +35,11 @@ const state = {
 }
 
 const actions = {
-	toggleMenuActiveProp({commit, state}, id) {
-		const menu = _.find(state.menus, {id: id});
-		menu.active = ! menu.active;
+	toggleMenu({commit, state}, id) {
+		commit('toggleActiveState', id);
+	},
+	activateHighlight({commit, state}, id) {
+		commit('enableHighlightState', id);
 	}
 }
 
@@ -43,10 +47,22 @@ const mutations = {
 	toggleActiveState(state, id) {
 		const menu = _.find(state.menus, {id: id});
 		menu.active = ! menu.active;
+	},
+	enableHighlightState(state, id) {
+		// disable all hightlight first
+		_.forEach(state.menus, (el, key) => {
+			el.highlight = false;
+			el.active = false;
+		});
+
+		const menu = _.find(state.menus, {id: id});
+		menu.highlight = true;
+		menu.active = true;
 	}
 }
 
 export default {
 	state,
 	mutations,
+	actions,
 }
