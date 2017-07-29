@@ -117,6 +117,12 @@
 			activateHighlight(id) {
 				this.$store.dispatch('activateHighlight', id);
 			}
+		},
+		mounted() {
+			const urlPath = this.$route.path;
+
+			if((urlPath.match(/\//g) || []).length > 1)
+				this.$store.dispatch('enableMenu', '/'+ urlPath.substring(1).match(/^([\w\-]+)/g)[0]);
 		}
 	}
 </script>

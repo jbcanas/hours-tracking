@@ -13,21 +13,21 @@ const state = {
 			id: _.uniqueId('menu'),
 		    name: 'Reports',
 		    icon: 'fa-archive',
-		    url: '',
+		    url: '/reports',
 		    active: false,
 		    highlight: false,
 		    items: [
 		        {
 		            name: 'Company Jobs',
-		            url: '/companyJobs'
+		            url: '/reports/companyJobs'
 		        },
 		        {
 		            name: 'Employee Jobs',
-		            url: '/weekly'
+		            url: '/reports/employeeJobs'
 		        },
 		        {
 		            name: 'Port Hours',
-		            url: '/weekly'
+		            url: '/reports/portHours'
 		        },
 		    ]
 		}
@@ -40,6 +40,10 @@ const actions = {
 	},
 	activateHighlight({commit, state}, id) {
 		commit('enableHighlightState', id);
+	},
+	enableMenu({commit, state}, path) {
+		const findID = _.find(state.menus, {url: path});
+		commit('enableHighlightState', findID.id);
 	}
 }
 
