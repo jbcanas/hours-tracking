@@ -10,7 +10,7 @@
 					@click="addEmployee"> <i class="fa fa-plus"></i></a>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" v-show="jobInfo.employees.length > 0">
 			<table class="table table-condensed table-hover table-bordered">
 		        <thead>
 		            <tr>

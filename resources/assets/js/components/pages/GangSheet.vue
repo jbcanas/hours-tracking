@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1 class="page-title"> Gang Sheet</h1>
-        <!-- <datepicker v:model="" :format="'MM/dd/yyyy'"></datepicker> -->
 
         <div class="row">
             <div class="portlet light">
@@ -39,7 +38,7 @@
                                     <label class="control-label col-md-3">Arbitration Award</label>
                                     <div class="col-md-9">
                                         <label class="mt-checkbox">
-                                            <input type="checkbox" />
+                                            <input type="checkbox" v-model="jobInfo.requestedBy" />
                                             <span></span>
                                         </label>
                                     </div>
@@ -47,99 +46,99 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Vessel/Barge</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" v-model="jobInfo.vesselBarge">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Voyage</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" v-model="jobInfo.voyage">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Job Sheet Number</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" v-model="jobInfo.jobSheetNumber">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">ILWU Job Number</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" v-model="jobInfo.ilwuJobNumber">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Notes</label>
                                     <div class="col-md-9">
-                                        <textarea class="form-control" cols="30" rows="3"></textarea>
+                                        <textarea class="form-control" cols="30" rows="3" v-model="jobInfo.notes"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Requested by</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Request Date</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control">
+                                    <div class="col-md-2">
+                                        <datepicker v-model="jobInfo.requestDate" input-class="form-control" :format="'MM/dd/yyyy'"></datepicker> 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Work Date</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control">
+                                    <div class="col-md-2">
+                                        <datepicker v-model="jobInfo.workDate" input-class="form-control" :format="'MM/dd/yyyy'"></datepicker> 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Start Time</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-2">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Stop Time</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-2">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Meal Break</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-1">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Cofee Break</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-1">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Early Start</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-1">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Moves</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-2">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Gang Shift</label>
-                                    <div class="col-md-9">
+                                    <div class="col-md-2">
                                         <input type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-12">
+                                <hr />
                                 <gangsheet-employees></gangsheet-employees>
                             </div>
                            
@@ -155,12 +154,14 @@
     import Datepicker from 'vuejs-datepicker';
     import jobType from './components/JobTypeDropDown.vue';
     import GangsheetEmployees from './components/GangsheetEmployees.vue';
+    import Materials from 'vue-materials';
 
     export default {
         components: {
             Datepicker,
             jobType,
-            GangsheetEmployees
+            GangsheetEmployees,
+            Materials
         },
         computed: {
             jobInfo() {
