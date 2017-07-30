@@ -5,7 +5,7 @@ export default {
 			accountDescription: '',
 			jobName: '',
 			requestedBy: '',
-			arbitrationAward: 0,
+			arbitrationAward: false,
 			requestDate: '',
 			vesselBarge: '',
 			workDate: '',

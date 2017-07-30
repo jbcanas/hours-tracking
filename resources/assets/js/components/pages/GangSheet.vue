@@ -37,10 +37,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Arbitration Award</label>
                                     <div class="col-md-9">
-                                        <label class="mt-checkbox">
-                                            <input type="checkbox" v-model="jobInfo.requestedBy" />
-                                            <span></span>
-                                        </label>
+                                        <v-switch v-model="jobInfo.arbitrationAward" on="" off=""></v-switch>
                                     </div>
                                 </div>
                                 <div class="form-group">
