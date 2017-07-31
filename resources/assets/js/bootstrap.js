@@ -33,6 +33,19 @@ window.axios.defaults.headers.common = {
 };
 
 /**
+ * Load the localForage api to handle localStorage
+ */
+
+window.localforage = require('localforage');
+
+localforage.config({
+    driver: localforage.LOCALSTORAGE,
+    name: 'ILWU-Dispatch',
+    version: 1.0,
+    storeName: 'amc'
+});
+
+/**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
