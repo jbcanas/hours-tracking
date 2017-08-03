@@ -150,6 +150,13 @@
                 </div>
             </div>
         </div>
+
+        <b-modal id="find" title="Find Gang Sheet">
+
+            <h1>test</h1>
+
+        </b-modal>
+        
     </div>
 </template>
 
@@ -174,6 +181,15 @@
             },
             jobNameLabel() {
                 return this.$store.state.gangSheet.jobInfo.accountDescription.name != 'TRAINING' ? 'Job Name' : 'Training Type';
+            }
+        },
+        methods: {
+            newGangSheetForm() {
+                this.$store.dispatch('resetJobInfo');
+                jQuery('.switch input').prop('checked', false);
+            },
+            saveGangSheet() {
+
             }
         }
     }

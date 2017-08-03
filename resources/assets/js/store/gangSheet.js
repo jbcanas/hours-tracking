@@ -1,27 +1,6 @@
 export default {
 	state: {
-		jobInfo: {
-			userId: 0,
-			accountDescription: '',
-			jobName: '',
-			requestedBy: '',
-			arbitrationAward: false,
-			requestDate: '',
-			vesselBarge: '',
-			workDate: '',
-			voyage: '',
-			startTime: '',
-			jobSheetNumber: '',
-			stopTime: '',
-			ilwuJobNumber: '',
-			mealBreak: '',
-			notes: '',
-			coffeeBreak: 0,
-			earlyStart: 0,
-			moves: 0,
-			gang: 0,
-			employees: []
-		},
+		jobInfo: jobInfo(),
 		accountDescriptions: [],
 		jobNames: [],
 		jobPositions: [
@@ -247,6 +226,9 @@ export default {
 			.then(function(response) {
 				commit(payload.type, response.data);
 			});
+		},
+		resetJobInfo({commit}) {
+			commit('resetJobInfo');
 		}
 	},
 	mutations: {
@@ -264,7 +246,35 @@ export default {
 		},
 		removeEmployee(state, payload) {
 			state.jobInfo.employees.splice(payload.key, 1);
+		},
+		resetJobInfo(state) {
+			state.jobInfo = jobInfo();
 		}
 	}
 
+}
+
+function jobInfo() {
+	return {
+			userId: 0,
+			accountDescription: '',
+			jobName: '',
+			requestedBy: '',
+			arbitrationAward: false,
+			requestDate: '',
+			vesselBarge: '',
+			workDate: '',
+			voyage: '',
+			startTime: '',
+			jobSheetNumber: '',
+			stopTime: '',
+			ilwuJobNumber: '',
+			mealBreak: '',
+			notes: '',
+			coffeeBreak: 0,
+			earlyStart: 0,
+			moves: 0,
+			gang: 0,
+			employees: []
+		}
 }
