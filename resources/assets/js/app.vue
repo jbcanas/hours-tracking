@@ -1,5 +1,5 @@
 <template>
-	<div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white"
+	<div class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-content-white"
 		:class="sidebarHidden ? 'page-sidebar-closed page-sidebar-closed-hide-logo' : ''">
         <div class="page-wrapper">
 			<top-bar />

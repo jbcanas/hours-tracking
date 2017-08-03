@@ -8,7 +8,6 @@
   },
   "devDependencies": {
     "axios": "^0.15.3",
-    "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
     "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
@@ -25,6 +24,8 @@
     "vue-materials": "^1.0.7-rc.7"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap-vue": "^0.18.0",
     "vue-router": "^2.2.1",
     "vue-select": "^2.2.0",
     "vuejs-datepicker": "^0.7.11",

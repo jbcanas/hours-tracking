@@ -6,11 +6,11 @@ mix
 	.sass('resources/assets/sass/app.sass', 'public/assets/css').version()
 
 	.combine([
-		'resources/assets/bower_components/bootstrap/dist/css/bootstrap.css',
-		'resources/assets/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+		'node_modules/bootstrap/dist/css/bootstrap.css',
+		'node_modules/bootstrap-vue/dist/bootstrap-vue.css',
+		'node_modules/bootstrap/dist/css/bootstrap-theme.css',
 		'resources/assets/bower_components/font-awesome/css/font-awesome.css',
 		'resources/assets/bower_components/open-sans/css/open-sans.css',
-		'resources/assets/bower_components/simple-line-icons/css/simple-line-icons.css',
 		'resources/assets/bower_components/simple-line-icons/css/simple-line-icons.css',
 		'resources/assets/bower_components/ladda/dist/ladda-themeless.min.css',
 		'resources/assets/css/switches.css',
@@ -22,6 +22,7 @@ mix
 	], 'public/assets/css/vendor.css')
 
 	.combine(['resources/assets/css/login.css'], 'public/assets/css/login.css').version()
+	.combine(['resources/assets/css/error.css'], 'public/assets/css/error.css').version()
 	
 	.copy('resources/assets/bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
 	.copy('resources/assets/bower_components/font-awesome/fonts', 'public/assets/fonts')
