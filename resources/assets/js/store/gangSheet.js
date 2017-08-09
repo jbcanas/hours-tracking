@@ -3,6 +3,9 @@ export default {
 		jobInfo: jobInfo(),
 		accountDescriptions: [],
 		jobNames: [],
+		find: {
+			ilwu: false
+		},
 		jobPositions: [
 			{
 				name: 'Attendee',
@@ -229,6 +232,9 @@ export default {
 		},
 		resetJobInfo({commit}) {
 			commit('resetJobInfo');
+		},
+		toggleIlwuJobNumber(state, payload) {
+			commit('toggleBoolean', payload);
 		}
 	},
 	mutations: {
@@ -249,6 +255,9 @@ export default {
 		},
 		resetJobInfo(state) {
 			state.jobInfo = jobInfo();
+		},
+		toggleBoolean(state) {
+
 		}
 	}
 

@@ -4,6 +4,10 @@ let routes = [
     {
         path: '/gangSheet',
         component: require('./components/pages/GangSheet')
+    },
+    {
+        path: '/',
+        redirect: '/gangSheet'
     }
 ];
 

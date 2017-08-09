@@ -18,9 +18,9 @@
                             </b-button>
                         </div>
                         <div class="actions">
-                            <b-button class="btn-steel" href="javascript:;" @click="saveGangSheet()">
+                            <a class="btn blue-steel" href="javascript:;" @click="saveGangSheet()">
                                 <i class="fa fa-external-link"></i> Save
-                            </b-button>
+                            </a>
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -42,7 +42,7 @@
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Arbitration Award</label>
                                         <div class="col-md-9">
-                                            <v-switch v-model="jobInfo.arbitrationAward" on="" off=""></v-switch>
+                                            <v-switch v-model="jobInfo.arbitrationAward" on="" off="" class="noMarginLeft"></v-switch>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -79,7 +79,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Requested by</label>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <input type="text" class="form-control">
                                         </div>
                                     </div>
@@ -151,10 +151,15 @@
             </div>
         </div>
 
-        <b-modal id="find" title="Find Gang Sheet">
-
-            <h1>test</h1>
-
+        <b-modal id="find" size="sm" title="Find Gang Sheet">
+            <v-switch v-model="gangSheet.find.ilwu" on="" off="ILWU Job #"></v-switch>
+            
+            <div id="findContainer" class="form-group row">
+                <label class="control-label col-md-2">{{ gangSheet.find.type ? 'ILWU' : 'JSN' }}</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
         </b-modal>
         
     </div>
@@ -176,6 +181,9 @@
             BootstrapVue
         },
         computed: {
+            gangSheet() {
+                return this.$store.state.gangSheet;
+            },
             jobInfo() {
                 return this.$store.state.gangSheet.jobInfo;
             },
