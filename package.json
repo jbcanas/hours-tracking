@@ -16,6 +16,23 @@
         "jquery": "^3.1.1",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
-        "vue": "^2.1.10"
+        "vue": "^2.1.10",
+        "font-awesome": "^4.7.0",
+        "ladda": "^1.0.0",
+        "localforage": "^1.5.0",
+        "material-design-icons-iconfont": "^3.0.3",
+        "material-icons": "^0.1.0",
+        "materialize-css": "^0.100.1",
+        "simple-line-icons": "^2.4.1",
+        "typeface-open-sans": "^0.0.31",
+        "vue-materials": "^1.0.7-rc.7"
+    },
+    "dependencies": {
+        "bootstrap": "^4.0.0-alpha.6",
+        "bootstrap-vue": "^0.18.0",
+        "vue-router": "^2.2.1",
+        "vue-select": "^2.2.0",
+        "vuejs-datepicker": "^0.7.11",
+        "vuex": "^2.1.2"
     }
 }
