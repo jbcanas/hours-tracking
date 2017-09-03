@@ -7,13 +7,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ManageGangSheetTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    /** @test */
+    function canCreateAGangSheet()
     {
-        $this->assertTrue(true);
+        $response = $this->post('/gangSheet/create', [
+            
+        ]);
     }
 }
