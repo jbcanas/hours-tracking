@@ -1,3 +1,7 @@
 {
-    "/assets/js/app.js": "/assets/js/app.js"
+    "/assets/js/app.js": "/assets/js/app.js?id=109c875ee6b3330185af",
+    "/assets/css/app.css": "/assets/css/app.css?id=b71bf70c794bc58aa9cf",
+    "/assets/css/vendor.css": "/assets/css/vendor.css?id=b98861f480b75dc0e77e",
+    "/assets/css/login.css": "/assets/css/login.css?id=e22173c39f43d319059d",
+    "/assets/css/error.css": "/assets/css/error.css?id=d41d8cd98f00b204e980"
 }

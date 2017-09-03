@@ -35,10 +35,9 @@ mix
     .combine(['resources/assets/css/login.css'], 'public/assets/css/login.css').version()
     .combine(['resources/assets/css/error.css'], 'public/assets/css/error.css').version()
 
-    .copy('resources/assets/bower_components/bootstrap/dist/fonts', 'public/assets/fonts')
-    .copy('resources/assets/bower_components/font-awesome/fonts', 'public/assets/fonts')
-    .copy('resources/assets/bower_components/open-sans/fonts', 'public/assets/fonts')
-    .copy('resources/assets/bower_components/simple-line-icons/fonts', 'public/assets/fonts')
+    .copy('node_modules/font-awesome/fonts', 'public/assets/fonts')
+    .copy('node_modules/npm-font-open-sans/fonts', 'public/assets/fonts')
+    .copy('node_modules/simple-line-icons/fonts', 'public/assets/fonts')
     .copy('node_modules/material-design-icons-iconfont/dist/fonts', 'public/assets/fonts')
 
     .copy('resources/assets/img', 'public/assets/img');
