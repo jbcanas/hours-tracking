@@ -23,4 +23,9 @@ class GangSheetController extends Controller
     {
         return $this->gangSheetService->delete($request);
     }
+
+    public function find(Request $request)
+    {
+        return $this->gangSheetService->find($request);
+    }
 }

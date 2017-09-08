@@ -49,7 +49,7 @@ class ManageGangSheetTest extends TestCase
     /** @test */
     function can_delete_a_gang_sheet()
     {
-        $gangSheet = factory('App\Models\GangSheet')->create();
+        $gangSheet = create('App\Models\GangSheet');
 
         $this->json('POST', '/api/gangSheet/delete', ['id' => $gangSheet->id]);
 
@@ -59,17 +59,34 @@ class ManageGangSheetTest extends TestCase
     /** @test */
     function can_update_a_gang_sheet()
     {
-        $gangSheet = factory('App\Models\GangSheet')->create();
+        $gangSheet = create('App\Models\GangSheet');
 
-        $this->json('POST', '/api/gangSheet/store', [
-            'id' => $gangSheet->id,
+        // expected value
+        $expectedValue = [
             'account_description' => 'ROAD DRIVING',
             'job_name' => 'ROAD DRIVING'
-        ]);
+        ];
+
+        $gangSheet->account_description = $expectedValue['account_description'];
+        $gangSheet->job_name = $expectedValue['job_name'];
+
+        $this->json('POST', '/api/gangSheet/store', $gangSheet->toArray());
 
         $updatedGangSheet = GangSheet::find($gangSheet->id);
 
-        $this->assertEquals('ROAD DRIVING', $updatedGangSheet->account_description)
-            ->assertEquals('ROAD DRIVING', $updatedGangSheet->job_name);
+        $this->assertEquals($expectedValue['account_description'], $updatedGangSheet->account_description);
+        $this->assertEquals($expectedValue['job_name'], $updatedGangSheet->job_name);
+    }
+
+    /** @test */
+    function can_find_a_gang_sheet_by_job_sheet_number()
+    {
+        create('App\Models\GangSheet');
+
+        $gangSheet = $this->json('POST', '/api/gangSheet/find', [
+            'job_sheet_number' => 'APL001'
+        ]);
+
+        dd($gangSheet->json());
     }
 }
