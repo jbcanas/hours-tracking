@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\GangSheet;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 
 
@@ -40,9 +41,12 @@ class GangSheetService
 
     public function delete(Request $request)
     {
+        if(! $request->has('id')) return 0;
+
         $gangSheet = GangSheet::find($request->id);
 
+        if(empty($gangSheet)) return 0;
+
         $gangSheet->delete();
-        dd($gangSheet);
     }
 }

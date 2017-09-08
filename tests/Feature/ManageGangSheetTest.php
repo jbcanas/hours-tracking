@@ -53,6 +53,23 @@ class ManageGangSheetTest extends TestCase
 
         $this->json('POST', '/api/gangSheet/delete', ['id' => $gangSheet->id]);
 
-        $this->assertEquals(null, GangSheet::where('id', $gangSheet->id));
+        $this->assertEquals(null, GangSheet::find($gangSheet->id));
+    }
+
+    /** @test */
+    function can_update_a_gang_sheet()
+    {
+        $gangSheet = factory('App\Models\GangSheet')->create();
+
+        $this->json('POST', '/api/gangSheet/store', [
+            'id' => $gangSheet->id,
+            'account_description' => 'ROAD DRIVING',
+            'job_name' => 'ROAD DRIVING'
+        ]);
+
+        $updatedGangSheet = GangSheet::find($gangSheet->id);
+
+        $this->assertEquals('ROAD DRIVING', $updatedGangSheet->account_description)
+            ->assertEquals('ROAD DRIVING', $updatedGangSheet->job_name);
     }
 }
