@@ -52,9 +52,10 @@ class GangSheetService
 
     public function find(Request $request)
     {
-        if(! $request->has('job_sheet_number') || ! $request->has('ilwu_job_number')) return 0;
+        if(! $request->has('type') || ! $request->has('value')) return 0;
 
-        $searchValue = $request->has('job_sheet_number') ? $request->job_sheet_number : $request->ilwu_job_number;
-        $gangSheet = GangSheet::where('')
+        $gangSheet = GangSheet::where($request->type, $request->value)->first();
+
+        return $gangSheet;
     }
 }

@@ -17,7 +17,7 @@ class ManageGangSheetTest extends TestCase
     /** @test */
     function can_create_a_gang_sheet()
     {
-        $response = $this->json('POST', '/api/gangSheet/store', [
+        $this->json('POST', '/api/gangSheet/store', [
             'user_id' => 1,
             'account_description' => 'BARGE',
             'job_name' => 'BARGE',
@@ -37,13 +37,17 @@ class ManageGangSheetTest extends TestCase
             'coffee_break' => 0,
             'meal_break' => 0,
             'early_start' => 0,
-            'arbitrary_award' => 0
+            'arbitrary_award' => 0,
+            'employees' => [
+                [
+                    'employee_id' => 123,
+                    'ilwu_number' => 1000,
+                    'company_number' => 1000,
+                ]
+            ]
         ]);
 
-        $response
-            ->assertJson([
-                'user_id' => 1
-            ]);
+        $this->assertFalse(GangSheet::all()->isEmpty());
     }
 
     /** @test */
@@ -84,9 +88,59 @@ class ManageGangSheetTest extends TestCase
         create('App\Models\GangSheet');
 
         $gangSheet = $this->json('POST', '/api/gangSheet/find', [
-            'job_sheet_number' => 'APL001'
+            'type' => 'job_sheet_number',
+            'value' => 'APL001'
         ]);
 
-        dd($gangSheet->json());
+        $this->assertArraySubset([
+            'account_description' => 'BARGE',
+            'job_sheet_number' => 'APL001'
+        ], $gangSheet->json());
     }
+
+    /** @test */
+    function can_find_a_gang_sheet_by_ilwu_job_number()
+    {
+        create('App\Models\GangSheet');
+
+        $gangSheet = $this->json('POST', '/api/gangSheet/find', [
+            'type' => 'ilwu_job_number',
+            'value' => 'A17-001'
+        ]);
+
+        $this->assertArraySubset([
+            'account_description' => 'BARGE',
+            'ilwu_job_number' => 'A17-001'
+        ], $gangSheet->json());
+    }
+
+    // /** @test */
+    // function can_delete_an_employee_on_the_employees_table()
+    // {
+    //
+    // }
+
+    // /** @test */
+    // function can_add_an_employee_to_the_employees_table()
+    // {
+    //
+    // }
+
+    // /** @test */
+    // function can_export_to_excel()
+    // {
+    //
+    // }
+
+    // /** @test */
+    // function can_export_timesheet_pdf()
+    // {
+    //
+    // }
+
+    // /** @test */
+    // function can_export_dispatch_list_pdf()
+    // {
+    //
+    // }
 }
