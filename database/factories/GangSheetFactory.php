@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\GangSheetEmployee;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\GangSheet::class, function (Faker $faker) {
@@ -26,6 +27,4 @@ $factory->define(App\Models\GangSheet::class, function (Faker $faker) {
         'early_start' => 0,
         'arbitrary_award' => 0
     ];
-
-
 });

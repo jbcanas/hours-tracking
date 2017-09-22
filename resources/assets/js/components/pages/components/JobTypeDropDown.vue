@@ -13,7 +13,8 @@
 		},
 		computed: {
 			list() {
-				return this.$store.state.gangSheet[this.type + 's'];
+				// return this.$store.state.gangSheet[this.type + 's'];
+				return [];
 			},
 			infoModel: {
 				get() {

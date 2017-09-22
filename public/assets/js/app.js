@@ -2060,7 +2060,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	computed: {
 		list: function list() {
-			return this.$store.state.gangSheet[this.type + 's'];
+			// return this.$store.state.gangSheet[this.type + 's'];
+			return [];
 		},
 
 		infoModel: {
