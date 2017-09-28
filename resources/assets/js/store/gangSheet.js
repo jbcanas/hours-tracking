@@ -4,7 +4,8 @@ export default {
 		accountDescriptions: [],
 		jobNames: [],
 		find: {
-			ilwu: false
+			ilwu: false,
+			value: ''
 		},
 		jobPositions: [
 			{
@@ -265,25 +266,25 @@ export default {
 
 function jobInfo() {
 	return {
-			userId: 0,
-			accountDescription: '',
-			jobName: '',
-			requestedBy: '',
-			arbitrationAward: false,
-			requestDate: '',
-			vesselBarge: '',
-			workDate: '',
-			voyage: '',
-			startTime: '',
-			jobSheetNumber: '',
-			stopTime: '',
-			ilwuJobNumber: '',
-			mealBreak: '',
-			notes: '',
-			coffeeBreak: 0,
-			earlyStart: 0,
-			moves: 0,
-			gang: 0,
-			employees: []
-		}
+		userId: 0,
+		accountDescription: '',
+		jobName: '',
+		requestedBy: '',
+		arbitrationAward: false,
+		requestDate: '',
+		vesselBarge: '',
+		workDate: '',
+		voyage: '',
+		startTime: '',
+		jobSheetNumber: '',
+		stopTime: '',
+		ilwuJobNumber: '',
+		mealBreak: 0,
+		coffeeBreak: 0,
+		earlyStart: 0,
+		moves: 0,
+		gang: 0,
+		notes: '',
+		employees: []
+	}
 }

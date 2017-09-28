@@ -52,3 +52,7 @@ h1.page-title {
   margin-top: 15px;
 }
 
+.has-error .invalid-feedback {
+  display: block;
+}
+

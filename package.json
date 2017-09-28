@@ -28,12 +28,14 @@
     "vue-materials": "^1.0.7-rc.7"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "^4.0.0-beta",
     "bootstrap-vue": "^0.18.0",
-    "npm-font-open-sans": "^1.0.3",
-    "vue-router": "^2.2.1",
+    "npm-font-open-sans": "^1.1.0",
+    "vee-validate": "^2.0.0-rc.17",
+    "vue-router": "^2.7.0",
     "vue-select": "^2.2.0",
-    "vuejs-datepicker": "^0.7.11",
-    "vuex": "^2.1.2"
+    "vuejs-datepicker": "^0.7.16",
+    "vuelidate": "^0.5.0",
+    "vuex": "^2.4.0"
   }
 }

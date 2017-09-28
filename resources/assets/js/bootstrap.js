@@ -57,3 +57,7 @@ localforage.config({
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+// Install vee-validate
+window.VeeValidate = require('vee-validate');
+Vue.use(VeeValidate);

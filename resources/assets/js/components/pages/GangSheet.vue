@@ -42,37 +42,43 @@
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Arbitration Award</label>
                                         <div class="col-md-9">
-                                            <v-switch v-model="jobInfo.arbitrationAward" on="" off="" class="noMarginLeft"></v-switch>
+                                            <v-switch v-model="gangSheet.jobInfo.arbitrationAward" on="" off="" class="noMarginLeft"></v-switch>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Vessel/Barge</label>
                                         <div class="col-md-5">
-                                            <input type="text" class="form-control" v-model="jobInfo.vesselBarge">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.vesselBarge">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Voyage</label>
                                         <div class="col-md-5">
-                                            <input type="text" class="form-control" v-model="jobInfo.voyage">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.voyage">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" :class="gangSheet.jobInfo.jobSheetNumber == '' ? 'hidden' : ''">
                                         <label class="control-label col-md-3">Job Sheet Number</label>
                                         <div class="col-md-3">
-                                            <input type="text" class="form-control" v-model="jobInfo.jobSheetNumber">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.jobSheetNumber" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">ILWU Job Number</label>
                                         <div class="col-md-3">
-                                            <input type="text" class="form-control" v-model="jobInfo.ilwuJobNumber">
+                                            <input type="text" 
+                                                class="form-control" 
+                                                :class="errors.has('ilwuJobNumber') ? 'is-invalid' : ''"
+                                                v-model="gangSheet.jobInfo.ilwuJobNumber" 
+                                                v-validate="'required|min:3'"
+                                                name="ilwuJobNumber">
+                                            <span class="invalid-feedback"> Please input a value</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Notes</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" cols="30" rows="3" v-model="jobInfo.notes"></textarea>
+                                            <textarea class="form-control" cols="30" rows="3" v-model="gangSheet.jobInfo.notes"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -86,56 +92,63 @@
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Request Date</label>
                                         <div class="col-md-2">
-                                            <datepicker v-model="jobInfo.requestDate" input-class="form-control" :format="'MM/dd/yyyy'"></datepicker> 
+                                            <datepicker v-model="gangSheet.jobInfo.requestDate" :bootstrapStyling="true" :format="'MM/dd/yyyy'"></datepicker> 
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" :class="{'has-error': errors.has('workDate')}">
                                         <label class="control-label col-md-3">Work Date</label>
                                         <div class="col-md-2">
-                                            <datepicker v-model="jobInfo.workDate" input-class="form-control" :format="'MM/dd/yyyy'"></datepicker> 
+                                            <datepicker 
+                                                v-model="gangSheet.jobInfo.workDate" 
+                                                v-validate="'required|min:3'" 
+                                                :bootstrapStyling="true"
+                                                :input-class="errors.has('workDate') ? 'is-invalid' : ''"
+                                                :format="'MM/dd/yyyy'" 
+                                                name="workDate"></datepicker> 
                                         </div>
+                                        <span class="invalid-feedback"> Please select a date</span>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Start Time</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" v-model="jobInfo.startTime">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.startTime">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Stop Time</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" v-model="jobInfo.stopTime">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.stopTime">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Meal Break</label>
                                         <div class="col-md-1">
-                                            <input type="text" class="form-control" v-model="jobInfo.mealBreak">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.mealBreak">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Cofee Break</label>
                                         <div class="col-md-1">
-                                            <input type="text" class="form-control" v-model="jobInfo.coffeeBreak">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.coffeeBreak">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Early Start</label>
                                         <div class="col-md-1">
-                                            <input type="text" class="form-control" v-model="jobInfo.earlyStart">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.earlyStart">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Moves</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" v-model="jobInfo.moves">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.moves">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Gang Shift</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control" v-model="jobInfo.gangShift">
+                                            <input type="text" class="form-control" v-model="gangSheet.jobInfo.gang">
                                         </div>
                                     </div>
                                 </div>
@@ -155,9 +168,9 @@
             <v-switch v-model="gangSheet.find.ilwu" on="" off="ILWU Job #"></v-switch>
             
             <div id="findContainer" class="form-group row">
-                <label class="control-label col-md-2">{{ gangSheet.find.type ? 'ILWU' : 'JSN' }}</label>
+                <label class="control-label col-md-2">{{ gangSheet.find.ilwu ? 'ILWU#' : 'JSN#' }}</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" v-model="gangSheet.find.value">
                 </div>
             </div>
         </b-modal>
@@ -184,9 +197,6 @@
             gangSheet() {
                 return this.$store.state.gangSheet;
             },
-            jobInfo() {
-                return this.$store.state.gangSheet.jobInfo;
-            },
             jobNameLabel() {
                 return this.$store.state.gangSheet.jobInfo.accountDescription.name != 'TRAINING' ? 'Job Name' : 'Training Type';
             }
@@ -197,7 +207,10 @@
                 jQuery('.switch input').prop('checked', false);
             },
             saveGangSheet() {
-
+                this.$validator.validateAll().then((result) => {
+                    console.log(result);
+                });
+                console.log(this.$store.state.gangSheet.jobInfo);
             }
         }
     }

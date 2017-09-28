@@ -873,7 +873,7 @@ bootstrap-vue@^0.18.0:
     tether latest
     vue "^2.3.3"
 
-bootstrap@^4.0.0-alpha.6:
+bootstrap@^4.0.0-alpha.6, bootstrap@^4.0.0-beta:
   version "4.0.0-beta"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0-beta.tgz#dc5928175d2e71310bc668cf9e05a907211b72a6"
 
@@ -4048,7 +4048,7 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-npm-font-open-sans@^1.0.3:
+npm-font-open-sans@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/npm-font-open-sans/-/npm-font-open-sans-1.1.0.tgz#8c27a56e43872747b8448dcc30653a649866c6ef"
 
@@ -5893,6 +5893,10 @@ vary@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.1.tgz#67535ebb694c1d52257457984665323f587e8d37"
 
+vee-validate@^2.0.0-rc.17:
+  version "2.0.0-rc.17"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-2.0.0-rc.17.tgz#0cac5251d8b5c162fe449fab551943d4e7cd6bc1"
+
 vendors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.1.tgz#37ad73c8ee417fb3d580e785312307d274847f22"
@@ -5991,7 +5995,7 @@ vue-materials@^1.0.7-rc.7:
   dependencies:
     vue "^2.0.1"
 
-vue-router@^2.2.1:
+vue-router@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.7.0.tgz#16d424493aa51c3c8cce8b7c7210ea4c3a89aff1"
 
@@ -6021,13 +6025,17 @@ vue@^2.0.1, vue@^2.1.10, vue@^2.3.3:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 
-vuejs-datepicker@^0.7.11:
+vuejs-datepicker@^0.7.16:
   version "0.7.16"
   resolved "https://registry.yarnpkg.com/vuejs-datepicker/-/vuejs-datepicker-0.7.16.tgz#32f09a1845370772731adf714530c3b6d8911efc"
   dependencies:
     babel-runtime "^6.0.0"
 
-vuex@^2.1.2:
+vuelidate@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.5.0.tgz#c315659a023e760d0fb11b6b42b6c3cdf08306c3"
+
+vuex@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.4.0.tgz#e1d0430646282b40007fdd06ec6ae88a9f5a1e14"
 
