@@ -24,6 +24,8 @@ mix
         'node_modules/open-sans/css/open-sans.css',
         'node_modules/simple-line-icons/css/simple-line-icons.css',
         'node_modules/ladda/dist/ladda-themeless.min.css',
+        'node_modules/sweetalert2/dist/sweetalert2.css',
+        'node_modules/csshake/dist/csshake.css',
         'resources/assets/css/switches.css',
         'resources/assets/css/components.css',
         'resources/assets/css/darkblue.css',

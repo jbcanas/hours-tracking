@@ -56,3 +56,24 @@ h1.page-title {
   display: block;
 }
 
+.swal2-icon {
+  border-radius: 50% !important;
+}
+
+.shake-horizontal {
+  display: block !important;
+}
+
+#gangSheetEmployeesTable td {
+  outline: none;
+}
+
+#employeePopover {
+  width: 500px;
+  max-width: none;
+}
+
+.handPointer {
+  cursor: pointer;
+}
+

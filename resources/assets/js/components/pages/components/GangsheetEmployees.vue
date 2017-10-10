@@ -10,8 +10,11 @@
 					@click="addEmployee"> <i class="fa fa-plus"></i></a>
 			</div>
 		</div>
-		<div class="row" v-show="jobInfo.employees.length > 0">
-			<table class="table table-condensed table-hover table-bordered">
+
+		<div class="row" :class="{'has-error': errors.has('employees')}">
+			<span class="invalid-feedback">Please insert at least 1 employee before saving the gang sheet.</span>
+
+			<table id="gangSheetEmployeesTable" class="table table-condensed table-hover table-bordered">
 		        <thead>
 		            <tr>
 		                <th>ILWU #</th>
@@ -36,8 +39,8 @@
 		        </thead>
 		        <tbody>
 		        	<tr v-for="(employee, key) in jobInfo.employees">
-		        		<td>{{ employee.employee_number }}</td>
-		        		<td>{{ employee.company_number }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'ilwuType' + key)" :ref="'ilwuType' + key">{{ employee.employee_number }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'companyType' + key)" :ref="'companyType' + key">{{ employee.company_number }}</td>
 		        		<td>{{ employee.first_name }}</td>
 		        		<td>{{ employee.last_name }}</td>
 		        		<td>{{ employee.office_use }}</td>
@@ -54,19 +57,33 @@
 		        		<td>{{ employee.adjust_pay }}</td>
 		        		<td>{{ totalHrs(employee) }}</td>
 		        		<td>
-		        			<a href="javascript:;" class="btn btn-xs red"
+		        			<a href="javascript:;" class="btn btn-sm red"
 								@click="removeEmployee(key)"> <i class="fa fa-times"></i>
 							</a>
 		        		</td>
 		        	</tr>
 		        </tbody>
 		    </table>
+
+		    <div id="employeePopover" class="popover fade bs-popover-right hidden" role="tooltip">
+		        <div class="arrow" style="top: 44px;"></div>
+		        <h3 class="popover-header">
+		            <div>
+		                Search an employee
+		            </div>
+		        </h3>
+		        <div class="popover-body">
+		            <v-select :options="['foo','bar','baz']"></v-select>
+		        </div>
+		    </div>
 	    </div>
    </div>
 </template>
 
 <script>
 	import JobPositionDropDown from './JobPositionDropDown.vue';
+	import Typeahead from './Typeahead.vue';
+	import vSelect from 'vue-select';
 
 	export default {
 		name: 'gangSheetEmployees',
@@ -76,7 +93,8 @@
 			}
 		},
 		components: {
-			jobpos: JobPositionDropDown
+			jobpos: JobPositionDropDown,
+			vSelect
 		},
 		computed: {
 			jobInfo() {
@@ -108,7 +126,28 @@
             	this.$store.commit('removeEmployee', {
 					key: key
 				});
+            },
+            showPopover(employee, refElement) {
+				const offset = $(this.$refs[refElement]).offset(),
+					posY = (offset.top - $('#gangSheetEmployeesTable').parent().offset().top) + 122,
+					posX = (offset.left - $('#gangSheetEmployeesTable').parent().offset().left) + 86; 
+
+				jQuery('#employeePopover').removeClass('show hidden').css({
+					left: posX,
+					top: posY
+				});
+
+				setTimeout(function() {
+					jQuery('#employeePopover').removeClass('show hidden').addClass('show');
+				}, 1);
             }
 		}
 	}
+
+	//hide popover when clicked outside the element
+	jQuery('html').on('click', function(e) {
+        if (! jQuery(e.target).is('#employeePopover') && jQuery(e.target).closest('.popover').length == 0 && jQuery('#employeePopover').hasClass('show')) {
+            jQuery('#employeePopover').removeClass('show').addClass('hidden');
+        }
+    });
 </script>

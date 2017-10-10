@@ -4,7 +4,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="portlet light">
+                <div id="gangSheetFormContainer" class="portlet light">
                     <div class="portlet-title">
                         <div class="actions pull-left">
                             <b-button class="blue" href="javascript:;" @click="newGangSheetForm()">
@@ -27,16 +27,18 @@
                         <form action="#" class="form-horizontal gangSheetForm">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group row">
+                                    <div class="form-group row" :class="{'has-error': errors.has('accountDescription')}">
                                         <label class="control-label col-md-3">Account Description</label>
                                         <div class="col-md-7">
-                                            <job-type type="accountDescription"></job-type>
+                                            <account-description type="accountDescription"></account-description>
+                                            <span class="invalid-feedback"> Please select an account desc.</span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" :class="{'has-error': errors.has('jobName')}">
                                         <label class="control-label col-md-3">{{ jobNameLabel }}</label>
                                         <div class="col-md-7">
-                                            <job-type type="jobName"></job-type>
+                                            <job-name type="jobName"></job-name>
+                                            <span class="invalid-feedback"> Please select a job name.</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -69,8 +71,7 @@
                                             <input type="text" 
                                                 class="form-control" 
                                                 :class="errors.has('ilwuJobNumber') ? 'is-invalid' : ''"
-                                                v-model="gangSheet.jobInfo.ilwuJobNumber" 
-                                                v-validate="'required|min:3'"
+                                                v-validate="'required|min:5'"
                                                 name="ilwuJobNumber">
                                             <span class="invalid-feedback"> Please input a value</span>
                                         </div>
@@ -99,11 +100,11 @@
                                         <label class="control-label col-md-3">Work Date</label>
                                         <div class="col-md-2">
                                             <datepicker 
-                                                v-model="gangSheet.jobInfo.workDate" 
-                                                v-validate="'required|min:3'" 
+                                                v-model="gangSheet.jobInfo.workDate"
                                                 :bootstrapStyling="true"
                                                 :input-class="errors.has('workDate') ? 'is-invalid' : ''"
                                                 :format="'MM/dd/yyyy'" 
+                                                v-validate="'required|min:5'"
                                                 name="workDate"></datepicker> 
                                         </div>
                                         <span class="invalid-feedback"> Please select a date</span>
@@ -180,25 +181,28 @@
 
 <script>
     import Datepicker from 'vuejs-datepicker';
-    import jobType from './components/JobTypeDropDown.vue';
+    import AccountDescription from './components/AccountDescription.vue';
+    import JobName from './components/JobName.vue';
     import GangsheetEmployees from './components/GangsheetEmployees.vue';
     import Materials from 'vue-materials';
     import BootstrapVue from 'bootstrap-vue';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
             Datepicker,
-            jobType,
+            AccountDescription,
+            JobName,
             GangsheetEmployees,
             Materials,
-            BootstrapVue
+            swal
         },
         computed: {
             gangSheet() {
                 return this.$store.state.gangSheet;
             },
             jobNameLabel() {
-                return this.$store.state.gangSheet.jobInfo.accountDescription.name != 'TRAINING' ? 'Job Name' : 'Training Type';
+                return this.$store.state.gangSheet.jobInfo.accountDescription != 'TRAINING' ? 'Job Name' : 'Training Type';
             }
         },
         methods: {
@@ -207,11 +211,53 @@
                 jQuery('.switch input').prop('checked', false);
             },
             saveGangSheet() {
+                handleOtherValidation(this.$store.state.gangSheet.jobInfo, this.$validator.errors);
+console.log(this.$validator.errors.count());
                 this.$validator.validateAll().then((result) => {
-                    console.log(result);
+                    if(result) {
+                        axios.post('/api/gangSheet/store', this.$store.state.gangSheet.jobInfo)
+                            .then((response) => {
+                                swal('Success', 'Gang sheet successfully saved!', 'success');
+                            })
+                            .catch((error) => {
+                                showError('Something went wrong! Please try again.');
+                            });
+                    }
                 });
-                console.log(this.$store.state.gangSheet.jobInfo);
             }
         }
     }
+
+    function handleOtherValidation(jobInfo, errorBag) {
+
+        if(jobInfo.accountDescription == '') {
+            errorBag.add('accountDescription', 'missing account description');
+        } else {
+            errorBag.remove('accountDescription');
+        }
+
+        if(jobInfo.jobName == '') {
+            errorBag.add('jobName', 'missing job name');
+        } else {
+            errorBag.remove('jobName');
+        }
+
+        if(jobInfo.employees.length < 1) {
+            errorBag.add('employees', 'missing employees');
+        } else {
+            errorBag.remove('employees');
+        }
+    }
+
+    function showError(message = '') {
+        const gangSheet = jQuery('#gangSheetFormContainer');
+
+        gangSheet.addClass('shake-horizontal');
+
+        setTimeout(function() {
+            gangSheet.removeClass('shake-horizontal');
+            if(message != '') swal('Oops..', message, 'error');
+        }, 500);
+    }
+
 </script>
