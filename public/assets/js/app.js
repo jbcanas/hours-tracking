@@ -2116,6 +2116,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		jobPositionEmpty: function jobPositionEmpty() {
 			return this.jobPosition == '' ? 'hidden' : '';
+		},
+		options: function options() {
+			return this.$store.state.gangSheet.employeeSearch.result;
 		}
 	},
 	methods: {
@@ -2148,6 +2151,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			setTimeout(function () {
 				jQuery('#employeePopover').removeClass('show hidden').addClass('show');
 			}, 1);
+		},
+		getOptions: function getOptions(search, loading) {
+			loading(true);
+
+			axios.post('/api/searchEmployee', {
+				text: this.$store.state.gangSheet.employeeSearch.value
+			}).then(function (response) {
+				loading(false);
+				console.log(response);
+			}).catch(function (response) {
+				console.log(response);
+			});
 		}
 	}
 
@@ -57048,7 +57063,16 @@ var render = function() {
             _c(
               "div",
               { staticClass: "popover-body" },
-              [_c("v-select", { attrs: { options: ["foo", "bar", "baz"] } })],
+              [
+                _c("v-select", {
+                  attrs: {
+                    debounce: 250,
+                    "on-search": _vm.getOptions,
+                    options: _vm.options,
+                    placeholder: "Search here..."
+                  }
+                })
+              ],
               1
             )
           ]
@@ -72665,6 +72689,10 @@ var mutations = {};
 		find: {
 			ilwu: false,
 			value: ''
+		},
+		employeeSearch: {
+			value: '',
+			result: []
 		},
 		jobPositions: [{
 			name: 'Attendee',

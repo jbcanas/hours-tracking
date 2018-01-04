@@ -15,7 +15,7 @@ class GangSheetService
     public function store(Request $request)
     {
         $gangSheet = ! empty(GangSheet::find($request->id)) ? GangSheet::find($request->id) : new GangSheet;
-        $gangSheet->user_id = $request->user_id;
+        $gangSheet->user_id = /*$request->user_id*/ 0;
         $gangSheet->account_description = $request->account_description;
         $gangSheet->job_name = $request->job_name;
         $gangSheet->job_sheet_number = $request->job_sheet_number;

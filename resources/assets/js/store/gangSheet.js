@@ -11,6 +11,10 @@ export default {
 			ilwu: false,
 			value: ''
 		},
+		employeeSearch: {
+			value: '',
+			result: []
+		},
 		jobPositions: [
 			{
 				name: 'Attendee',

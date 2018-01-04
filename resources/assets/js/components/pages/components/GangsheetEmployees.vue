@@ -73,7 +73,7 @@
 		            </div>
 		        </h3>
 		        <div class="popover-body">
-		            <v-select :options="['foo','bar','baz']"></v-select>
+		            <v-select :debounce="250" :on-search="getOptions" :options="options" placeholder="Search here..."></v-select>
 		        </div>
 		    </div>
 	    </div>
@@ -102,6 +102,9 @@
             },
             jobPositionEmpty() {
             	return this.jobPosition == '' ? 'hidden' : '';
+            },
+            options() {
+            	return this.$store.state.gangSheet.employeeSearch.result;
             }
 		},
 		methods: {
@@ -140,6 +143,18 @@
 				setTimeout(function() {
 					jQuery('#employeePopover').removeClass('show hidden').addClass('show');
 				}, 1);
+            },
+            getOptions(search, loading) {
+            	loading(true);
+
+            	axios.post('/api/searchEmployee', {
+            		text: this.$store.state.gangSheet.employeeSearch.value
+            	}).then(response => {
+                    loading(false);
+            		console.log(response);
+            	}).catch(response => {
+            		console.log(response);
+            	});
             }
 		}
 	}
