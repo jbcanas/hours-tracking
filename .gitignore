@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/assets
 /storage/*.key
 /vendor
 /.idea
@@ -13,3 +14,4 @@ yarn-error.log
 .DS_Store
 /composer.lock
 /public/mix-manifest.json
+/package-lock.json

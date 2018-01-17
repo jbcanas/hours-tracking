@@ -27,7 +27,7 @@
                         <form action="#" class="form-horizontal gangSheetForm">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group row" :class="{'has-error': errors.has('accountDescription')}">
+                                    <div class="form-group row" :class="{'has-error': errors.has('accountDescription'), hidden: showAccountDescription}">
                                         <label class="control-label col-md-3">Account Description</label>
                                         <div class="col-md-7">
                                             <account-description type="accountDescription"></account-description>
@@ -203,6 +203,9 @@
             },
             jobNameLabel() {
                 return this.$store.state.gangSheet.jobInfo.accountDescription != 'TRAINING' ? 'Job Name' : 'Training Type';
+            },
+            showAccountDescription() {
+                return companyName != 'apl' ? true : false;
             }
         },
         methods: {

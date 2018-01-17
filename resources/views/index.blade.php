@@ -27,7 +27,10 @@
     	
     	<div id="app"></div>
 
-    	<script src="{!! mix('/assets/js/app.js') !!}"></script>
+        <script>
+            window.companyName = '{!! env('COMPANY') !!}';
+        </script>
+        <script src="{!! mix('/assets/js/app.js') !!}"></script>
     </body>
 
 </html>
