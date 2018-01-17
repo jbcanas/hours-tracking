@@ -2093,6 +2093,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2111,6 +2115,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		vSelect: __WEBPACK_IMPORTED_MODULE_2_vue_select___default.a
 	},
 	computed: {
+		gangSheetState: function gangSheetState() {
+			return this.$store.state.gangSheet;
+		},
 		jobInfo: function jobInfo() {
 			return this.$store.state.gangSheet.jobInfo;
 		},
@@ -56928,6 +56935,26 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-4" },
+        [
+          _vm._v("\n                Replacement\n\t\t\t\t"),
+          _c("v-switch", {
+            staticClass: "noMarginLeft",
+            attrs: { on: "", off: "" },
+            model: {
+              value: _vm.gangSheetState.replacementEmployee,
+              callback: function($$v) {
+                _vm.gangSheetState.replacementEmployee = $$v
+              },
+              expression: "gangSheetState.replacementEmployee"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c("div", { staticClass: "col-md-3" }, [
         _c(
           "a",
@@ -72694,6 +72721,7 @@ var mutations = {};
 			value: '',
 			result: []
 		},
+		replacementEmployee: false,
 		jobPositions: [{
 			name: 'Attendee',
 			company: 'both'

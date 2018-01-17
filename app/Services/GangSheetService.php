@@ -89,4 +89,14 @@ class GangSheetService
 
         return $gangSheet;
     }
+
+    public function deleteEmployee(Request $request)
+    {
+        if(! $request->has('id')) return 0;
+
+        $employee = GangSheetEmployee::find($request->id);
+        $employee->delete();
+
+        return 'deleted';
+    }
 }

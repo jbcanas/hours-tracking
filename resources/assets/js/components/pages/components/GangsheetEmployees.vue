@@ -1,8 +1,12 @@
 <template>
 	<div>
 		<div class="row jobPositionContainer">
+            <div class="col-md-4">
+                <jobpos :setJobPositionMethod="setJobPosition"></jobpos>
+            </div>
 			<div class="col-md-4">
-				<jobpos :setJobPositionMethod="setJobPosition"></jobpos>
+                Replacement
+				<v-switch v-model="gangSheetState.replacementEmployee" on="" off="" class="noMarginLeft"></v-switch>
 			</div>
 			<div class="col-md-3">
 				<a href="javascript:;" class="btn blue-steel"
@@ -97,6 +101,9 @@
 			vSelect
 		},
 		computed: {
+            gangSheetState() {
+                return this.$store.state.gangSheet;
+            },
 			jobInfo() {
                 return this.$store.state.gangSheet.jobInfo;
             },

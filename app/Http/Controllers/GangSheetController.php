@@ -28,4 +28,9 @@ class GangSheetController extends Controller
     {
         return $this->gangSheetService->find($request);
     }
+
+    public function deleteEmployee(Request $request)
+    {
+        return $this->gangSheetService->deleteEmployee($request);
+    }
 }

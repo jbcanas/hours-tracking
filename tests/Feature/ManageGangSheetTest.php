@@ -91,21 +91,15 @@ class ManageGangSheetTest extends TestCase
     }
 
     /** @test */
-    function can_search_an_employee()
-    {
-        create('App\Models\Employee');
-
-        $employee = $this->json('POST', '/api/gangSheet/employeeFind', [
-            'value' => 'williams'
-        ]);
-
-        $this->assertNotEmpty($employee->json());
-    }
-
-    // /** @test */
     // function can_delete_an_employee_on_the_employees_table()
     // {
+    //     create('App\Models\GangSheetEmployee');
     //
+    //     $employee = $this->json('POST', '/api/gangSheet/deleteEmployee', [
+    //         'id' => 1
+    //     ]);
+    //
+    //     $this->assertNotEmpty($employee->json());
     // }
 
     // /** @test */

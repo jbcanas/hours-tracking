@@ -20,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/gangSheet/store', 'GangSheetController@store');
 Route::post('/gangSheet/delete', 'GangSheetController@delete');
 Route::post('/gangSheet/find', 'GangSheetController@find');
+Route::post('/gangSheet/deleteEmployee', 'GangSheetController@deleteEmployee');
+
+Route::post('/masterList/search', 'GangSheetController@deleteEmployee');

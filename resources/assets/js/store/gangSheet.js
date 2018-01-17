@@ -15,6 +15,7 @@ export default {
 			value: '',
 			result: []
 		},
+		replacementEmployee: false,
 		jobPositions: [
 			{
 				name: 'Attendee',
