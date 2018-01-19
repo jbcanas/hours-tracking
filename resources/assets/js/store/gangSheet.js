@@ -15,7 +15,6 @@ export default {
 			value: '',
 			result: []
 		},
-		replacementEmployee: false,
 		jobPositions: [
 			{
 				name: 'Attendee',
@@ -277,8 +276,8 @@ function jobInfo() {
 	return {
 		id: 0,
 		userId: 0,
-		accountDescription: '',
-		jobName: '',
+		accountDescription: null,
+		jobName: null,
 		requestedBy: '',
 		arbitrationAward: false,
 		requestDate: new Date(),
@@ -295,6 +294,10 @@ function jobInfo() {
 		moves: 0,
 		gang: 0,
 		notes: '',
-		employees: []
+		employees: [
+			{
+				job_position: 'Dispatcher'
+			}
+		]
 	}
 }

@@ -4,9 +4,11 @@
             <div class="col-md-4">
                 <jobpos :setJobPositionMethod="setJobPosition"></jobpos>
             </div>
-			<div class="col-md-4">
-                Replacement
-				<v-switch v-model="gangSheetState.replacementEmployee" on="" off="" class="noMarginLeft"></v-switch>
+			<div class="col-md-2">
+                <b-form-checkbox id="checkbox1"
+                     v-model="replacement">
+                     Replacement
+                </b-form-checkbox>
 			</div>
 			<div class="col-md-3">
 				<a href="javascript:;" class="btn blue-steel"
@@ -16,7 +18,7 @@
 		</div>
 
 		<div class="row" :class="{'has-error': errors.has('employees')}">
-			<span class="invalid-feedback">Please insert at least 1 employee before saving the gang sheet.</span>
+			<span class="invalid-feedback">Please insert at least 1 employee(excluding the dispatcher) before saving the gang sheet.</span>
 
 			<table id="gangSheetEmployeesTable" class="table table-condensed table-hover table-bordered">
 		        <thead>
@@ -42,7 +44,7 @@
 		            </tr>
 		        </thead>
 		        <tbody>
-		        	<tr v-for="(employee, key) in jobInfo.employees">
+		        	<tr :class="employee.replacement ? 'replacementEmployeeRow' : ''" v-for="(employee, key) in jobInfo.employees">
 		        		<td class="handPointer" @click="showPopover(employee, 'ilwuType' + key)" :ref="'ilwuType' + key">{{ employee.employee_number }}</td>
 		        		<td class="handPointer" @click="showPopover(employee, 'companyType' + key)" :ref="'companyType' + key">{{ employee.company_number }}</td>
 		        		<td>{{ employee.first_name }}</td>
@@ -77,7 +79,7 @@
 		            </div>
 		        </h3>
 		        <div class="popover-body">
-		            <v-select :debounce="250" :on-search="getOptions" :options="options" placeholder="Search here..."></v-select>
+		            <v-select :debounce="250" :on-search="getOptions" :options="options" placeholder="Search here. You can use the employee's name or by ILWU#"></v-select>
 		        </div>
 		    </div>
 	    </div>
@@ -91,9 +93,11 @@
 
 	export default {
 		name: 'gangSheetEmployees',
+        inject: ['$validator'],
 		data() {
 			return {
-				jobPosition: ''
+				jobPosition: '',
+                replacement: false
 			}
 		},
 		components: {
@@ -112,7 +116,8 @@
             },
             options() {
             	return this.$store.state.gangSheet.employeeSearch.result;
-            }
+            },
+
 		},
 		methods: {
 			totalHrs(item) {
@@ -125,12 +130,14 @@
 					(item.dt === undefined ? 0 : item.dt);
             },
             setJobPosition(value) {
-            	this.jobPosition = value;
+                this.jobPosition = value;
             },
             addEmployee() {
-            	this.$store.commit('addEmployee', {
-					job_position: this.jobPosition
-				});
+                this.$store.commit('addEmployee', {
+                    job_position: this.jobPosition,
+                    replacement: this.replacement
+                });
+                this.replacement = false;
             },
             removeEmployee(key) {
             	this.$store.commit('removeEmployee', {

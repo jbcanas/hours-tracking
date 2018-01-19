@@ -30,21 +30,22 @@
                                     <div class="form-group row" :class="{'has-error': errors.has('accountDescription'), hidden: showAccountDescription}">
                                         <label class="control-label col-md-3">Account Description</label>
                                         <div class="col-md-7">
-                                            <account-description type="accountDescription"></account-description>
+                                            <account-description type="accountDescription" v-validate:accountDescriptionValidate="'required'" data-vv-name="accountDescription"></account-description>
                                             <span class="invalid-feedback"> Please select an account desc.</span>
                                         </div>
                                     </div>
                                     <div class="form-group row" :class="{'has-error': errors.has('jobName')}">
                                         <label class="control-label col-md-3">{{ jobNameLabel }}</label>
                                         <div class="col-md-7">
-                                            <job-name type="jobName"></job-name>
+                                            <job-name type="jobName" v-validate:jobNameValidate="'required'" data-vv-name="jobName"></job-name>
                                             <span class="invalid-feedback"> Please select a job name.</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="control-label col-md-3">Arbitration Award</label>
                                         <div class="col-md-9">
-                                            <v-switch v-model="gangSheet.jobInfo.arbitrationAward" on="" off="" class="noMarginLeft"></v-switch>
+                                            <b-form-checkbox v-model="gangSheet.jobInfo.arbitrationAward">
+                                            </b-form-checkbox>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -155,7 +156,10 @@
                                 </div>
                                 <div class="col-md-12">
                                     <hr />
-                                    <gangsheet-employees></gangsheet-employees>
+                                    <gangsheet-employees 
+                                        v-validate:employeesValidate="'required|min_value:2'" 
+                                        data-vv-name="employees" 
+                                        :error-bag="errorBag"></gangsheet-employees>
                                 </div>
                             
                             </div>
@@ -206,17 +210,29 @@
             },
             showAccountDescription() {
                 return companyName != 'apl' ? true : false;
+            },
+            accountDescriptionValidate() {
+                return this.$store.state.gangSheet.jobInfo.accountDescription;
+            },
+            jobNameValidate() {
+                return this.$store.state.gangSheet.jobInfo.jobName;
+            },
+            employeesValidate() {
+                return this.$store.state.gangSheet.jobInfo.employees.length;
+            },
+            errorBag() {
+                return this.$validator.errors;
             }
         },
         methods: {
             newGangSheetForm() {
                 this.$store.dispatch('resetJobInfo');
-                jQuery('.switch input').prop('checked', false);
             },
             saveGangSheet() {
-                handleOtherValidation(this.$store.state.gangSheet.jobInfo, this.$validator.errors);
-console.log(this.$validator.errors.count());
+                // handleOtherValidation(this.$store.state.gangSheet.jobInfo, this.$validator.errors);
+console.log(this.$validator.errors);
                 this.$validator.validateAll().then((result) => {
+                    console.log(result);
                     if(result) {
                         axios.post('/api/gangSheet/store', this.$store.state.gangSheet.jobInfo)
                             .then((response) => {
@@ -233,20 +249,20 @@ console.log(this.$validator.errors.count());
 
     function handleOtherValidation(jobInfo, errorBag) {
 
-        if(jobInfo.accountDescription == '') {
-            errorBag.add('accountDescription', 'missing account description');
+        if(jobInfo.accountDescription === null) {
+            errorBag.add('accountDescription', 'missing account description', 'required');
         } else {
             errorBag.remove('accountDescription');
         }
 
-        if(jobInfo.jobName == '') {
-            errorBag.add('jobName', 'missing job name');
+        if(jobInfo.jobName === null) {
+            errorBag.add('jobName', 'missing job name', 'required');
         } else {
             errorBag.remove('jobName');
         }
 
-        if(jobInfo.employees.length < 1) {
-            errorBag.add('employees', 'missing employees');
+        if(jobInfo.employees.length < 2) {
+            errorBag.add('employees', 'missing employees', 'required');
         } else {
             errorBag.remove('employees');
         }

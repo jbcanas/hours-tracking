@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
-    "bootstrap-vue": "^1.0.0-beta.9",
+    "bootstrap-vue": "^1.4.1",
     "csshake": "^1.5.2",
     "npm-font-open-sans": "^1.1.0",
     "portal-vue": "^1.1.1",
