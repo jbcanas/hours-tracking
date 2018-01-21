@@ -81,6 +81,7 @@
 		        <div class="popover-body">
 		            <v-select 
                         label="resultLabel" 
+                        v-model="selectedEmployee"
                         @search="getOptions" 
                         :options="searchResults" 
                         :filterable="false"
@@ -105,7 +106,8 @@
 			return {
 				jobPosition: '',
                 replacement: false,
-                searchResults: []
+                searchResults: [],
+                selectedEmployee: ''
 			}
 		},
 		components: {
@@ -162,11 +164,12 @@
 					posY = (offset.top - $('#gangSheetEmployeesTable').parent().offset().top) + 122,
 					posX = (offset.left - $('#gangSheetEmployeesTable').parent().offset().left) + 86; 
 
-
                 jQuery('#employeePopover').removeClass('show hidden').css({
                     left: posX,
                     top: posY
                 });
+
+                this.selectedEmployee = null;
 
                 setTimeout(function() {
 					jQuery('#employeePopover').removeClass('show hidden').addClass('show');
