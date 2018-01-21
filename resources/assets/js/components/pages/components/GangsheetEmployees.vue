@@ -33,9 +33,9 @@
 		                <th>ST</th>
 		                <th>OT</th>
 		                <th>POT</th>
-		                <th>ST-Other</th>
-		                <th>OT-Other</th>
-		                <th>POT-Other</th>
+		                <th :class="{hidden: otherHrs}">ST-Other</th>
+		                <th :class="{hidden: otherHrs}">OT-Other</th>
+		                <th :class="{hidden: otherHrs}">POT-Other</th>
 		                <th>DT</th>
 		                <th>PL</th>
 		                <th>Adjust Pay</th>
@@ -47,17 +47,17 @@
 		        	<tr :class="employee.replacement ? 'replacementEmployeeRow' : ''" v-for="(employee, key) in jobInfo.employees">
 		        		<td class="handPointer" @click="showPopover(employee, 'ilwuType' + key)" :ref="'ilwuType' + key">{{ employee.employee_number }}</td>
 		        		<td class="handPointer" @click="showPopover(employee, 'companyType' + key)" :ref="'companyType' + key">{{ employee.company_number }}</td>
-		        		<td>{{ employee.first_name }}</td>
-		        		<td>{{ employee.last_name }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'fname' + key)" :ref="'fname' + key">{{ employee.first_name }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'lname' + key)" :ref="'lname' + key">{{ employee.last_name }}</td>
 		        		<td>{{ employee.office_use }}</td>
 		        		<td>{{ employee.job_position }}</td>
 		        		<td>{{ employee.labor_code }}</td>
 		        		<td>{{ employee.st }}</td>
 		        		<td>{{ employee.ot }}</td>
 		        		<td>{{ employee.pot }}</td>
-		        		<td>{{ employee.st_other }}</td>
-		        		<td>{{ employee.ot_other }}</td>
-		        		<td>{{ employee.pot_other }}</td>
+		        		<td :class="{hidden: otherHrs}">{{ employee.st_other }}</td>
+		        		<td :class="{hidden: otherHrs}">{{ employee.ot_other }}</td>
+		        		<td :class="{hidden: otherHrs}">{{ employee.pot_other }}</td>
 		        		<td>{{ employee.dt }}</td>
 		        		<td>{{ employee.pl }}</td>
 		        		<td>{{ employee.adjust_pay }}</td>
@@ -79,7 +79,14 @@
 		            </div>
 		        </h3>
 		        <div class="popover-body">
-		            <v-select :debounce="250" :on-search="getOptions" :options="options" placeholder="Search here. You can use the employee's name or by ILWU#"></v-select>
+		            <v-select 
+                        label="resultLabel" 
+                        @search="getOptions" 
+                        :options="searchResults" 
+                        :filterable="false"
+                        :placeholder="employeePopoverPlaceholder"
+                        ref="employeePopover">
+                    </v-select>
 		        </div>
 		    </div>
 	    </div>
@@ -97,7 +104,8 @@
 		data() {
 			return {
 				jobPosition: '',
-                replacement: false
+                replacement: false,
+                searchResults: []
 			}
 		},
 		components: {
@@ -114,10 +122,13 @@
             jobPositionEmpty() {
             	return this.jobPosition == '' ? 'hidden' : '';
             },
-            options() {
-            	return this.$store.state.gangSheet.employeeSearch.result;
+            employeePopoverPlaceholder() {
+                const companyNumber = companyName == 'apl' ? 'APL#' : 'Matson#';
+                return 'Search by Name, ILWU# or '+ companyNumber;
             },
-
+            otherHrs() {
+                return (this.jobInfo.account_description == 'YARD WORK/SORT' && this.jobInfo.job_name == 'YARD WORK/OTHER') ? false : true;
+            }
 		},
 		methods: {
 			totalHrs(item) {
@@ -137,6 +148,8 @@
                     job_position: this.jobPosition,
                     replacement: this.replacement
                 });
+
+                // resets replacement checkbox to un-checked state
                 this.replacement = false;
             },
             removeEmployee(key) {
@@ -149,27 +162,35 @@
 					posY = (offset.top - $('#gangSheetEmployeesTable').parent().offset().top) + 122,
 					posX = (offset.left - $('#gangSheetEmployeesTable').parent().offset().left) + 86; 
 
-				jQuery('#employeePopover').removeClass('show hidden').css({
-					left: posX,
-					top: posY
-				});
 
-				setTimeout(function() {
+                jQuery('#employeePopover').removeClass('show hidden').css({
+                    left: posX,
+                    top: posY
+                });
+
+                setTimeout(function() {
 					jQuery('#employeePopover').removeClass('show hidden').addClass('show');
 				}, 1);
             },
-            getOptions(search, loading) {
+            getOptions(search, loading, vm) {
             	loading(true);
 
-            	axios.post('/api/searchEmployee', {
-            		text: this.$store.state.gangSheet.employeeSearch.value
-            	}).then(response => {
+                this.runSearch(search, loading, this);
+            },
+            runSearch: _.debounce((search, loading, vm) => {
+                loading(true);
+
+                axios.post('/api/masterList/search', {
+                    value: search
+                }).then(response => {
                     loading(false);
-            		console.log(response);
-            	}).catch(response => {
-            		console.log(response);
-            	});
-            }
+
+                    vm.searchResults = response.data;
+                }).catch(response => {
+                    loading(false);
+                    console.log(response);
+                });
+            }, 750),
 		}
 	}
 

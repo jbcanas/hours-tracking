@@ -13,3 +13,11 @@ if (! function_exists('convertToCollection')) {
         return collect($array);
     }
 }
+
+if (! function_exists('ddd')) {
+    function ddd(...$args)
+    {
+        http_response_code(500);
+        call_user_func_array('dd', $args);
+    }
+}

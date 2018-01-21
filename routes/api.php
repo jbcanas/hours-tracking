@@ -22,4 +22,4 @@ Route::post('/gangSheet/delete', 'GangSheetController@delete');
 Route::post('/gangSheet/find', 'GangSheetController@find');
 Route::post('/gangSheet/deleteEmployee', 'GangSheetController@deleteEmployee');
 
-Route::post('/masterList/search', 'GangSheetController@deleteEmployee');
+Route::post('/masterList/search', 'EmployeeMasterlistController@search');
