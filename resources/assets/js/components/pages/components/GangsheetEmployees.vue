@@ -27,9 +27,9 @@
 		                <th>Company #</th>
 		                <th>First Name</th>
 		                <th>Last Name</th>
-		                <th>Office use</th>
+		                <th :class="{hidden: matsonColumns}">Office use</th>
 		                <th>Job Position</th>
-		                <th>Labor Code</th>
+		                <th :class="{hidden: matsonColumns}">Labor Code</th>
 		                <th>ST</th>
 		                <th>OT</th>
 		                <th>POT</th>
@@ -37,21 +37,21 @@
 		                <th :class="{hidden: otherHrs}">OT-Other</th>
 		                <th :class="{hidden: otherHrs}">POT-Other</th>
 		                <th>DT</th>
-		                <th>PL</th>
-		                <th>Adjust Pay</th>
+		                <th :class="{hidden: matsonColumns}">PL</th>
+		                <th :class="{hidden: matsonColumns}">Adjust Pay</th>
 		                <th>Total Hrs</th>
 		                <th></th>
 		            </tr>
 		        </thead>
 		        <tbody>
 		        	<tr :class="employee.replacement ? 'replacementEmployeeRow' : ''" v-for="(employee, key) in jobInfo.employees">
-		        		<td class="handPointer" @click="showPopover(employee, 'ilwuType' + key)" :ref="'ilwuType' + key">{{ employee.employee_number }}</td>
-		        		<td class="handPointer" @click="showPopover(employee, 'companyType' + key)" :ref="'companyType' + key">{{ employee.company_number }}</td>
-		        		<td class="handPointer" @click="showPopover(employee, 'fname' + key)" :ref="'fname' + key">{{ employee.first_name }}</td>
-		        		<td class="handPointer" @click="showPopover(employee, 'lname' + key)" :ref="'lname' + key">{{ employee.last_name }}</td>
-		        		<td>{{ employee.office_use }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'ilwuType' + key, key)" :ref="'ilwuType' + key">{{ employee.employee_number }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'companyType' + key, key)" :ref="'companyType' + key">{{ employee.company_number }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'fname' + key, key)" :ref="'fname' + key">{{ employee.first_name }}</td>
+		        		<td class="handPointer" @click="showPopover(employee, 'lname' + key, key)" :ref="'lname' + key">{{ employee.last_name }}</td>
+		        		<td :class="{hidden: matsonColumns}">{{ employee.office_use }}</td>
 		        		<td>{{ employee.job_position }}</td>
-		        		<td>{{ employee.labor_code }}</td>
+		        		<td :class="{hidden: matsonColumns}">{{ employee.labor_code }}</td>
 		        		<td>{{ employee.st }}</td>
 		        		<td>{{ employee.ot }}</td>
 		        		<td>{{ employee.pot }}</td>
@@ -59,8 +59,8 @@
 		        		<td :class="{hidden: otherHrs}">{{ employee.ot_other }}</td>
 		        		<td :class="{hidden: otherHrs}">{{ employee.pot_other }}</td>
 		        		<td>{{ employee.dt }}</td>
-		        		<td>{{ employee.pl }}</td>
-		        		<td>{{ employee.adjust_pay }}</td>
+		        		<td :class="{hidden: matsonColumns}">{{ employee.pl }}</td>
+		        		<td :class="{hidden: matsonColumns}">{{ employee.adjust_pay }}</td>
 		        		<td>{{ totalHrs(employee) }}</td>
 		        		<td>
 		        			<a href="javascript:;" class="btn btn-sm red"
@@ -98,6 +98,7 @@
 	import JobPositionDropDown from './JobPositionDropDown.vue';
 	import Typeahead from './Typeahead.vue';
 	import vSelect from 'vue-select';
+    import { mapGetters } from 'vuex';
 
 	export default {
 		name: 'gangSheetEmployees',
@@ -107,7 +108,9 @@
 				jobPosition: '',
                 replacement: false,
                 searchResults: [],
-                selectedEmployee: ''
+                rowToInsert: '',
+                selectedEmployee: '',
+                otherHrs: true
 			}
 		},
 		components: {
@@ -124,13 +127,16 @@
             jobPositionEmpty() {
             	return this.jobPosition == '' ? 'hidden' : '';
             },
+            matsonColumns() {
+                return companyName == 'matson' ? false : true;
+            },
             employeePopoverPlaceholder() {
                 const companyNumber = companyName == 'apl' ? 'APL#' : 'Matson#';
                 return 'Search by Name, ILWU# or '+ companyNumber;
             },
-            otherHrs() {
-                return (this.jobInfo.account_description == 'YARD WORK/SORT' && this.jobInfo.job_name == 'YARD WORK/OTHER') ? false : true;
-            }
+            ...mapGetters({
+                jobNameState: 'getJobName'
+            })
 		},
 		methods: {
 			totalHrs(item) {
@@ -159,7 +165,7 @@
 					key: key
 				});
             },
-            showPopover(employee, refElement) {
+            showPopover(employee, refElement, key) {
 				const offset = $(this.$refs[refElement]).offset(),
 					posY = (offset.top - $('#gangSheetEmployeesTable').parent().offset().top) + 122,
 					posX = (offset.left - $('#gangSheetEmployeesTable').parent().offset().left) + 86; 
@@ -170,6 +176,7 @@
                 });
 
                 this.selectedEmployee = null;
+                this.rowToInsertKey = key;
 
                 setTimeout(function() {
 					jQuery('#employeePopover').removeClass('show hidden').addClass('show');
@@ -193,8 +200,28 @@
                     loading(false);
                     console.log(response);
                 });
-            }, 750),
-		}
+            }, 500)
+		},
+        watch: {
+            selectedEmployee(employee) {
+                if(! _.isEmpty(employee)) {
+                    const rowToUpdate = this.jobInfo.employees[this.rowToInsertKey];
+
+                    rowToUpdate.employee_number = employee.employee_number;
+                    rowToUpdate.company_number = employee.company_number;
+                    rowToUpdate.first_name = employee.first_name;
+                    rowToUpdate.last_name = employee.last_name;
+                    rowToUpdate.last_name = employee.last_name;
+
+                    // hide popover
+                    jQuery('body').click();
+                }
+            },
+            jobNameState(value) {
+                if(value == 'YARD WORK/OTHER')
+                    this.otherHrs = false;
+            }
+        }
 	}
 
 	//hide popover when clicked outside the element

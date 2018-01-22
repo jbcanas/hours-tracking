@@ -226,6 +226,9 @@ export default {
 			}
 		]
 	},
+	getters: {
+		getJobName: state => state.jobInfo.jobName
+	},
 	actions: {
 		loadData({commit}, payload) {
 			axios.post('/api/gangSheet', {

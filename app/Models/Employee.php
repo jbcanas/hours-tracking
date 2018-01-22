@@ -22,7 +22,9 @@ class Employee extends Model
         $array = [
             'id' => $this->id,
             'first_name' => $this->first_name,
-            'last_name' => $this->last_name
+            'last_name' => $this->last_name,
+            'employee_number' => $this->employee_number,
+            'company_number' => $this->company_number,
         ];
         return $array;
     }
