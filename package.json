@@ -28,6 +28,7 @@
     "vue-materials": "^1.0.7-rc.7"
   },
   "dependencies": {
+    "@onekiloparsec/vue-xeditable": "^0.3.11",
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^1.4.1",
     "csshake": "^1.5.3",
@@ -37,6 +38,7 @@
     "vee-validate": "^2.0.3",
     "vue-router": "^2.8.1",
     "vue-select": "^2.4.0",
+    "vue-xeditable": "^1.1.0",
     "vuejs-datepicker": "^0.7.16",
     "vuelidate": "^0.5.0",
     "vuex": "^2.5.0"

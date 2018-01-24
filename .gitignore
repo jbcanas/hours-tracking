@@ -15,3 +15,5 @@ yarn-error.log
 /composer.lock
 /public/mix-manifest.json
 /package-lock.json
+/public/images
+/storage/employees.index

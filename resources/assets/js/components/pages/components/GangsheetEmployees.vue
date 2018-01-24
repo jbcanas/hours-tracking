@@ -9,6 +9,7 @@
                      v-model="replacement">
                      Replacement
                 </b-form-checkbox>
+                <editable v-model='value'></editable>
 			</div>
 			<div class="col-md-3">
 				<a href="javascript:;" class="btn blue-steel"
@@ -24,7 +25,7 @@
 		        <thead>
 		            <tr>
 		                <th>ILWU #</th>
-		                <th>Company #</th>
+		                <th>{{ companyName }} #</th>
 		                <th>First Name</th>
 		                <th>Last Name</th>
 		                <th :class="{hidden: matsonColumns}">Office use</th>
@@ -86,7 +87,7 @@
                         :options="searchResults" 
                         :filterable="false"
                         :placeholder="employeePopoverPlaceholder"
-                        ref="employeePopover">
+                        ref="employeeSearchElement">
                     </v-select>
 		        </div>
 		    </div>
@@ -97,8 +98,9 @@
 <script>
 	import JobPositionDropDown from './JobPositionDropDown.vue';
 	import Typeahead from './Typeahead.vue';
-	import vSelect from 'vue-select';
+    import vSelect from 'vue-select';
     import { mapGetters } from 'vuex';
+	import Editable from 'vue-xeditable/src/Editable.vue';
 
 	export default {
 		name: 'gangSheetEmployees',
@@ -110,12 +112,14 @@
                 searchResults: [],
                 rowToInsert: '',
                 selectedEmployee: '',
-                otherHrs: true
+                otherHrs: true,
+                value: 'value'
 			}
 		},
 		components: {
 			jobpos: JobPositionDropDown,
-			vSelect
+			vSelect,
+            editable: Editable
 		},
 		computed: {
             gangSheetState() {
@@ -133,6 +137,9 @@
             employeePopoverPlaceholder() {
                 const companyNumber = companyName == 'apl' ? 'APL#' : 'Matson#';
                 return 'Search by Name, ILWU# or '+ companyNumber;
+            },
+            companyName() {
+                return companyName.toUpperCase();
             },
             ...mapGetters({
                 jobNameState: 'getJobName'
@@ -178,9 +185,13 @@
                 this.selectedEmployee = null;
                 this.rowToInsertKey = key;
 
-                setTimeout(function() {
-					jQuery('#employeePopover').removeClass('show hidden').addClass('show');
-				}, 1);
+                setTimeout(() => {
+                    // show popover
+                    jQuery('#employeePopover').removeClass('show hidden').addClass('show');
+
+                    // focus on employee search's input
+					this.$refs.employeeSearchElement.$refs.search.focus();
+                }, 1);
             },
             getOptions(search, loading, vm) {
             	loading(true);
@@ -218,8 +229,11 @@
                 }
             },
             jobNameState(value) {
-                if(value == 'YARD WORK/OTHER')
+                if(value == 'YARD WORK/OTHER' && companyName == 'apl') {
                     this.otherHrs = false;
+                } else {
+                    this.otherHrs = true;
+                }
             }
         }
 	}
