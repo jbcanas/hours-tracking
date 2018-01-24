@@ -14,7 +14,8 @@ let mix = require('laravel-mix');
 mix
     .js('resources/assets/js/app.js', 'public/assets/js').version()
 
-    .sass('resources/assets/sass/app.sass', 'public/assets/css').version()
+    // .sass('resources/assets/sass/app.sass', 'public/assets/css').version()
+    .sass('resources/assets/sass/theme/style.scss', 'public/assets/css/app.css').version()
 
     .combine([
         'node_modules/bootstrap/dist/css/bootstrap.css',
