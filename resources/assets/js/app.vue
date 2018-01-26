@@ -1,15 +1,14 @@
 <template>
-	<div class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-content-white"
-		:class="sidebarHidden ? 'page-sidebar-closed page-sidebar-closed-hide-logo' : ''">
-        <div class="page-wrapper">
+	<div class="m-page--fluid m--skin- m-content--skin-light2 m-header--static m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"
+		:class="sidebarHidden ? 'm-brand--minimize m-aside-left--minimize' : ''">
+        <div class="m-grid m-grid--hor m-grid--root m-page">
 			<top-bar />
 
-			<div class="page-container">
+			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
 				<side-bar />
-				<div class="page-content-wrapper">
-				    <div class="page-content">
-				        <router-view></router-view>
-				    </div>
+				
+				<div class="m-grid__item m-grid__item--fluid m-wrapper">
+					<router-view></router-view>
 				</div>
 			</div>
         </div>

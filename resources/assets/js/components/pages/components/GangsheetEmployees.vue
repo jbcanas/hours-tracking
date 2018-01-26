@@ -9,7 +9,6 @@
                      v-model="replacement">
                      Replacement
                 </b-form-checkbox>
-                <editable v-model='value'></editable>
 			</div>
 			<div class="col-md-3">
 				<a href="javascript:;" class="btn blue-steel"
@@ -21,7 +20,7 @@
 		<div class="row" :class="{'has-error': errors.has('employees')}">
 			<span class="invalid-feedback">Please insert at least 1 employee(excluding the dispatcher) before saving the gang sheet.</span>
 
-			<table id="gangSheetEmployeesTable" class="table table-condensed table-hover table-bordered">
+			<table id="gangSheetEmployeesTable" class="table table-condensed table-hover table-bordered m-table m-table--head-bg-brand">
 		        <thead>
 		            <tr>
 		                <th>ILWU #</th>
@@ -100,7 +99,7 @@
 	import Typeahead from './Typeahead.vue';
     import vSelect from 'vue-select';
     import { mapGetters } from 'vuex';
-	import Editable from 'vue-xeditable/src/Editable.vue';
+	// import Editable from 'vue-xeditable/src/Editable.vue';
 
 	export default {
 		name: 'gangSheetEmployees',
@@ -119,7 +118,7 @@
 		components: {
 			jobpos: JobPositionDropDown,
 			vSelect,
-            editable: Editable
+            // editable: Editable
 		},
 		computed: {
             gangSheetState() {

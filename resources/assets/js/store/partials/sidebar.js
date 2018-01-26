@@ -38,6 +38,9 @@ const actions = {
 	toggleMenu({commit, state}, id) {
 		commit('toggleActiveState', id);
 	},
+	hoverMenu({commit, state}, args) {
+		commit('modifyActiveState', args);
+	},
 	activateHighlight({commit, state}, id) {
 		commit('enableHighlightState', id);
 	},
@@ -51,6 +54,10 @@ const mutations = {
 	toggleActiveState(state, id) {
 		const menu = _.find(state.menus, {id: id});
 		menu.active = ! menu.active;
+	},
+	modifyActiveState(state, args) {
+		const menu = _.find(state.menus, {id: args.id});
+		menu.active = args.arg;
 	},
 	enableHighlightState(state, id) {
 		// disable all hightlight first
