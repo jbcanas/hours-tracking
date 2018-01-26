@@ -24,10 +24,12 @@
                         <li
                         :key="key"
                         :to="menu.url" 
-                        :class="{'m-menu__item--open': menu.active, 'm-menu__item--active': menu.highlight}"
+                        :class="typeOfMenuDropdown(menu)"
                         class="m-menu__item m-menu__item--submenu">
                             <a class="m-menu__link m-menu__toggle"
-                             @click="toggleNav(menu.id)">
+                             @click="toggleNav(menu.id)"
+                             @mouseover="hoverMenu(menu, true)"
+                             @mouseout="hoverMenu(menu, false)">
                                 <i class="m-menu__link-icon fa" :class="menu.icon"></i>
                                 <span class="m-menu__link-text">{{ menu.name }}</span>
                                 <span v-show="menu.active" class="selected"></span>
@@ -35,6 +37,8 @@
                                     class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="m-menu__submenu"
+                            @mouseover="hoverMenu(menu, true)"
+                            @mouseout="hoverMenu(menu, false)"
                             :class="menu.active ? 'd-block' : 'd-none'">
                                 <span class="m-menu__arrow"></span>
                                 <ul v-if="menu.items.length > 0" 
@@ -90,12 +94,25 @@
 			}
 		},
 		methods: {
-			toggleNav(id) {
-				this.$store.dispatch('toggleMenu', id);
+            toggleNav(id) {
+                this.$store.dispatch('toggleMenu', id);
+            },
+			hoverMenu(menu, arg) {
+                if(this.$store.state.topBar.hiddenSidebar) {
+    				this.$store.dispatch('hoverMenu', {
+                        id: menu.id,
+                        arg
+                    });
+                }
 			},
 			activateHighlight(id) {
 				this.$store.dispatch('activateHighlight', id);
-			}
+			},
+            typeOfMenuDropdown(menu) {
+                if(menu.active){
+                    return this.$store.state.topBar.hiddenSidebar ? 'm-menu__item--hover' : 'm-menu__item--open';
+                }
+            }
 		},
 		mounted() {
 			const urlPath = this.$route.path;

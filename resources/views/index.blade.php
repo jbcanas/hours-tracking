@@ -12,6 +12,7 @@
 
         <link rel="stylesheet" href="{!! mix('/assets/css/vendor.css') !!}">
         <link rel="stylesheet" href="{!! mix('/assets/css/app.css') !!}">
+        <link rel="stylesheet" href="/assets/css/metronic.bundle.css">
         <!-- END THEME LAYOUT STYLES -->
         <link rel="shortcut icon" href="favicon.ico" /> 
         
