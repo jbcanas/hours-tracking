@@ -52,18 +52,38 @@
 		        		<td :class="{hidden: matsonColumns}">{{ employee.office_use }}</td>
 		        		<td>{{ employee.job_position }}</td>
 		        		<td :class="{hidden: matsonColumns}">{{ employee.labor_code }}</td>
-		        		<td>{{ employee.st }}</td>
-		        		<td>{{ employee.ot }}</td>
-		        		<td>{{ employee.pot }}</td>
-		        		<td :class="{hidden: otherHrs}">{{ employee.st_other }}</td>
-		        		<td :class="{hidden: otherHrs}">{{ employee.ot_other }}</td>
-		        		<td :class="{hidden: otherHrs}">{{ employee.pot_other }}</td>
-		        		<td>{{ employee.dt }}</td>
-		        		<td :class="{hidden: matsonColumns}">{{ employee.pl }}</td>
-		        		<td :class="{hidden: matsonColumns}">{{ employee.adjust_pay }}</td>
+		        		<td>
+                            <hours-edit :employee="employee.st"></hours-edit>   
+                        </td>
+		        		<td>
+                            <hours-edit :employee="employee.ot"></hours-edit>
+                        </td>
+		        		<td>
+                            <hours-edit :employee="employee.pot"></hours-edit>            
+                        </td>
+		        		<td :class="{hidden: otherHrs}">
+                            <hours-edit :employee="employee.st_other"></hours-edit>            
+                        </td>
+                        <td :class="{hidden: otherHrs}">
+                            <hours-edit :employee="employee.ot_other"></hours-edit>            
+                        </td>
+                        <td :class="{hidden: otherHrs}">
+                            <hours-edit :employee="employee.pot_other"></hours-edit>            
+                        </td>
+                        <td>
+                            <hours-edit :employee="employee.dt"></hours-edit>            
+                        </td>
+                        <td :class="{hidden: matsonColumns}">
+                            <hours-edit :employee="employee.pl"></hours-edit>            
+                        </td>
+                        <td :class="{hidden: matsonColumns}">
+                            <hours-edit :employee="employee.adjust_pay"></hours-edit>            
+                        </td>
 		        		<td>{{ totalHrs(employee) }}</td>
 		        		<td>
-		        			<a href="javascript:;" class="btn btn-sm red"
+		        			<a href="javascript:;" 
+                                title="Delete" 
+                                class="btn btn-sm red"
 								@click="removeEmployee(key)"> <i class="fa fa-times"></i>
 							</a>
 		        		</td>
@@ -96,10 +116,10 @@
 
 <script>
 	import JobPositionDropDown from './JobPositionDropDown.vue';
-	import Typeahead from './Typeahead.vue';
+    import Typeahead from './Typeahead.vue';
     import vSelect from 'vue-select';
     import { mapGetters } from 'vuex';
-	// import Editable from 'vue-xeditable/src/Editable.vue';
+	import HoursEdit from './HoursEdit.vue';
 
 	export default {
 		name: 'gangSheetEmployees',
@@ -116,14 +136,12 @@
 			}
 		},
 		components: {
-			jobpos: JobPositionDropDown,
+            jobpos: JobPositionDropDown,
+			"hours-edit": HoursEdit,
 			vSelect,
             // editable: Editable
 		},
 		computed: {
-            gangSheetState() {
-                return this.$store.state.gangSheet;
-            },
 			jobInfo() {
                 return this.$store.state.gangSheet.jobInfo;
             },
@@ -146,13 +164,13 @@
 		},
 		methods: {
 			totalHrs(item) {
-            	return (item.st === undefined ? 0 : item.st) +
-					(item.ot === undefined ? 0 : item.ot) +
-					(item.pot === undefined ? 0 : item.pot) +
-					(item.st_other === undefined ? 0 : item.st_other) +
-					(item.ot_other === undefined ? 0 : item.ot_other) +
-					(item.pot_other === undefined ? 0 : item.pot_other) +
-					(item.dt === undefined ? 0 : item.dt);
+            	return (item.st === undefined ? 0 : Number(item.st.value)) +
+					(item.ot === undefined ? 0 : Number(item.ot.value)) +
+					(item.pot === undefined ? 0 : Number(item.pot.value)) +
+					(item.st_other === undefined ? 0 : Number(item.st_other.value)) +
+					(item.ot_other === undefined ? 0 : Number(item.ot_other.value)) +
+					(item.pot_other === undefined ? 0 : Number(item.pot_other.value)) +
+					(item.dt === undefined ? 0 : Number(item.dt.value));
             },
             setJobPosition(value) {
                 this.jobPosition = value;
@@ -160,7 +178,43 @@
             addEmployee() {
                 this.$store.commit('addEmployee', {
                     job_position: this.jobPosition,
-                    replacement: this.replacement
+                    replacement: this.replacement,
+                    st: {
+                        value: 0,
+                        edit: false
+                    },
+                    ot: {
+                        value: 0,
+                        edit: false
+                    },
+                    pot: {
+                        value: 0,
+                        edit: false
+                    },
+                    st_other: {
+                        value: 0,
+                        edit: false
+                    },
+                    ot_other: {
+                        value: 0,
+                        edit: false
+                    },
+                    pot_other: {
+                        value: 0,
+                        edit: false
+                    },
+                    dt: {
+                        value: 0,
+                        edit: false
+                    },
+                    pl: {
+                        value: 0,
+                        edit: false
+                    },
+                    adjust_pay: {
+                        value: 0,
+                        edit: false
+                    },
                 });
 
                 // resets replacement checkbox to un-checked state

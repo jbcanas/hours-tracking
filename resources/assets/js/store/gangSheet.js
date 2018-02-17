@@ -295,7 +295,43 @@ function jobInfo() {
 		notes: '',
 		employees: [
 			{
-				job_position: 'Dispatcher'
+				job_position: 'Dispatcher',
+				st: {
+					value: 0,
+					edit: false
+				},
+				ot: {
+					value: 0,
+					edit: false
+				},
+				pot: {
+					value: 0,
+					edit: false
+				},
+				dt: {
+					value: 0,
+					edit: false
+				},
+				"st_other": {
+					value: 0,
+					edit: false
+				},
+				"ot_other": {
+					value: 0,
+					edit: false
+				},
+				"pot_other": {
+					value: 0,
+					edit: false
+				},
+				pl: {
+					value: 0,
+					edit: false
+				},
+				adjust_pay: {
+					value: 0,
+					edit: false
+				}
 			}
 		]
 	}

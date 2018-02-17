@@ -14,13 +14,13 @@
                     <div id="gangSheetFormContainer" class="m-portlet">
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
-                                <a href="javascript:;" class="btn btn-sm blue m-btn m-btn--icon" @click="newGangSheetForm()">
+                                <a href="javascript:;" class="btn btn-sm m-btn m-btn--gradient-from-primary m-btn--gradient-to-info m-btn--icon" @click="newGangSheetForm()">
                                     <i class="fa fa-plus"></i> New
                                 </a>
-                                <a href="javascript:;" class="btn btn-sm blue m-btn m-btn--icon" v-b-modal.find>
+                                <a href="javascript:;" class="btn btn-sm m-btn m-btn--gradient-from-primary m-btn--gradient-to-info m-btn--icon" v-b-modal.find>
                                     <i class="fa fa-search"></i> Find
                                 </a>
-                                <a href="javascript:;" class="btn btn-sm red m-btn m-btn--icon" @click="newGangSheetForm()">
+                                <a href="javascript:;" class="btn btn-sm m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning" @click="newGangSheetForm()">
                                     <i class="fa fa-minus"></i> Cancel
                                 </a>
                             </div>
