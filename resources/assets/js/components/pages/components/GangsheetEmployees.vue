@@ -27,9 +27,9 @@
 		                <th>{{ companyName }} #</th>
 		                <th>First Name</th>
 		                <th>Last Name</th>
-		                <th :class="{hidden: matsonColumns}">Office use</th>
+		                <th :class="{hidden: hideMatsonColumns}">Office use</th>
 		                <th>Job Position</th>
-		                <th :class="{hidden: matsonColumns}">Labor Code</th>
+		                <th :class="{hidden: hideMatsonColumns}">Labor Code</th>
 		                <th>ST</th>
 		                <th>OT</th>
 		                <th>POT</th>
@@ -37,8 +37,8 @@
 		                <th :class="{hidden: otherHrs}">OT-Other</th>
 		                <th :class="{hidden: otherHrs}">POT-Other</th>
 		                <th>DT</th>
-		                <th :class="{hidden: matsonColumns}">PL</th>
-		                <th :class="{hidden: matsonColumns}">Adjust Pay</th>
+		                <th :class="{hidden: hideMatsonColumns}">PL</th>
+		                <th :class="{hidden: hideMatsonColumns}">Adjust Pay</th>
 		                <th>Total Hrs</th>
 		                <th></th>
 		            </tr>
@@ -49,35 +49,35 @@
 		        		<td class="handPointer" @click="showPopover(employee, 'companyType' + key, key)" :ref="'companyType' + key">{{ employee.company_number }}</td>
 		        		<td class="handPointer" @click="showPopover(employee, 'fname' + key, key)" :ref="'fname' + key">{{ employee.first_name }}</td>
 		        		<td class="handPointer" @click="showPopover(employee, 'lname' + key, key)" :ref="'lname' + key">{{ employee.last_name }}</td>
-		        		<td :class="{hidden: matsonColumns}">{{ employee.office_use }}</td>
+		        		<td :class="{hidden: hideMatsonColumns}">{{ employee.office_use }}</td>
 		        		<td>{{ employee.job_position }}</td>
-		        		<td :class="{hidden: matsonColumns}">{{ employee.labor_code }}</td>
+		        		<td :class="{hidden: hideMatsonColumns}">{{ employee.labor_code }}</td>
 		        		<td>
-                            <hours-edit :employee="employee.st"></hours-edit>   
+                            <hours-edit :type="employee.st"></hours-edit>   
                         </td>
 		        		<td>
-                            <hours-edit :employee="employee.ot"></hours-edit>
+                            <hours-edit :type="employee.ot"></hours-edit>
                         </td>
 		        		<td>
-                            <hours-edit :employee="employee.pot"></hours-edit>            
+                            <hours-edit :type="employee.pot"></hours-edit>            
                         </td>
 		        		<td :class="{hidden: otherHrs}">
-                            <hours-edit :employee="employee.st_other"></hours-edit>            
+                            <hours-edit :type="employee.st_other"></hours-edit>            
                         </td>
                         <td :class="{hidden: otherHrs}">
-                            <hours-edit :employee="employee.ot_other"></hours-edit>            
+                            <hours-edit :type="employee.ot_other"></hours-edit>            
                         </td>
                         <td :class="{hidden: otherHrs}">
-                            <hours-edit :employee="employee.pot_other"></hours-edit>            
+                            <hours-edit :type="employee.pot_other"></hours-edit>            
                         </td>
                         <td>
-                            <hours-edit :employee="employee.dt"></hours-edit>            
+                            <hours-edit :type="employee.dt"></hours-edit>            
                         </td>
-                        <td :class="{hidden: matsonColumns}">
-                            <hours-edit :employee="employee.pl"></hours-edit>            
+                        <td :class="{hidden: hideMatsonColumns}">
+                            <hours-edit :type="employee.pl"></hours-edit>            
                         </td>
-                        <td :class="{hidden: matsonColumns}">
-                            <hours-edit :employee="employee.adjust_pay"></hours-edit>            
+                        <td :class="{hidden: hideMatsonColumns}">
+                            <hours-edit :type="employee.adjust_pay"></hours-edit>            
                         </td>
 		        		<td>{{ totalHrs(employee) }}</td>
 		        		<td>
@@ -138,8 +138,7 @@
 		components: {
             jobpos: JobPositionDropDown,
 			"hours-edit": HoursEdit,
-			vSelect,
-            // editable: Editable
+			vSelect
 		},
 		computed: {
 			jobInfo() {
@@ -148,7 +147,7 @@
             jobPositionEmpty() {
             	return this.jobPosition == '' ? 'hidden' : '';
             },
-            matsonColumns() {
+            hideMatsonColumns() {
                 return companyName == 'matson' ? false : true;
             },
             employeePopoverPlaceholder() {
@@ -272,9 +271,8 @@
                     const rowToUpdate = this.jobInfo.employees[this.rowToInsertKey];
 
                     rowToUpdate.employee_number = employee.employee_number;
-                    rowToUpdate.company_number = employee.company_number;
+                    rowToUpdate.company_number = this.hideMatsonColumns ? employee.apl_number : employee.hl_number;
                     rowToUpdate.first_name = employee.first_name;
-                    rowToUpdate.last_name = employee.last_name;
                     rowToUpdate.last_name = employee.last_name;
 
                     // hide popover

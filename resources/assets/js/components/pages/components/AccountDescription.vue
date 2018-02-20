@@ -1,5 +1,5 @@
 <template>
-	<v-select v-model="infoModel" label="name" :options="list" placeholder="Select an account description"></v-select>
+	<v-select v-model="infoModel" label="value" :options="list" placeholder="Select an account description"></v-select>
 </template>
 
 <script>
@@ -13,7 +13,6 @@
 		computed: {
 			list() {
 				return this.$store.state.gangSheet.accountDescriptions;
-				// return [];
 			},
 			infoModel: {
 				get() {
@@ -24,14 +23,19 @@
 						type: 'accountDescription',
 						value: value
 					});
+
+					const jobNames = Array.isArray(value.jobNames) ? value.jobNames : [value.jobNames];
+
+					this.$store.commit('setJobNames', jobNames.sort());
+
+					this.$store.commit('updateJobInfo', {
+						type: 'jobName',
+						value: jobNames.length > 1 ? '' : value.jobNames
+					});
 				}
 			}
 		},
 		mounted() {
-		    /*this.$store.dispatch('loadData', {
-		    	type: 'setAccountDescriptions'
-		    });*/
-
 		    this.$store.state.gangSheet[this.type];
 		}
 	}

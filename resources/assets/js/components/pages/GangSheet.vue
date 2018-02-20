@@ -234,14 +234,10 @@
         },
         methods: {
             newGangSheetForm() {
-                console.log(123);
                 this.$store.dispatch('resetJobInfo');
             },
             saveGangSheet() {
-                // handleOtherValidation(this.$store.state.gangSheet.jobInfo, this.$validator.errors);
-
                 this.$validator.validateAll().then((result) => {
-                    console.log(result);
                     if(result) {
                         axios.post('/api/gangSheet/store', this.$store.state.gangSheet.jobInfo)
                             .then((response) => {
@@ -253,27 +249,6 @@
                     }
                 });
             }
-        }
-    }
-
-    function handleOtherValidation(jobInfo, errorBag) {
-
-        if(jobInfo.accountDescription === null) {
-            errorBag.add('accountDescription', 'missing account description', 'required');
-        } else {
-            errorBag.remove('accountDescription');
-        }
-
-        if(jobInfo.jobName === null) {
-            errorBag.add('jobName', 'missing job name', 'required');
-        } else {
-            errorBag.remove('jobName');
-        }
-
-        if(jobInfo.employees.length < 2) {
-            errorBag.add('employees', 'missing employees', 'required');
-        } else {
-            errorBag.remove('employees');
         }
     }
 

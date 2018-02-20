@@ -15,7 +15,7 @@
 
 <script>
     export default {
-        props: ['employee'],
+        props: ['type'],
         data() {
             return {
                 _beforeEditingCache: 0
@@ -23,7 +23,7 @@
         },
         computed: {
             hour() {
-                return this.employee;
+                return this.type;
             },
             refkey() {
                 return _.uniqueId();
