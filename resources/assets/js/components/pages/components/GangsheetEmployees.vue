@@ -17,7 +17,7 @@
 			</div>
 		</div>
 
-		<div class="row" :class="{'has-error': errors.has('employees')}">
+		<div id="gangSheetEmployeesTableContainer" class="row" :class="{'has-error': errors.has('employees')}">
 			<span class="invalid-feedback">Please insert at least 1 employee(excluding the dispatcher) before saving the gang sheet.</span>
 
 			<table id="gangSheetEmployeesTable" class="table table-condensed table-hover table-bordered m-table m-table--head-bg-brand">
