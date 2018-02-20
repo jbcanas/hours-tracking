@@ -13,7 +13,6 @@
 		computed: {
 			list() {
 				return this.$store.state.gangSheet.jobNames;
-				// return [];
 			},
 			infoModel: {
 				get() {
@@ -28,10 +27,6 @@
 			}
 		},
 		mounted() {
-		    /*this.$store.dispatch('loadData', {
-		    	type: 'setJobName'
-		    });*/
-
 		    this.$store.state.gangSheet[this.type];
 		}
 	}

@@ -24,6 +24,9 @@
 						value: value
 					});
 
+					if(value === null)
+						return true;
+
 					const jobNames = Array.isArray(value.jobNames) ? value.jobNames : [value.jobNames];
 
 					this.$store.commit('setJobNames', jobNames.sort());
