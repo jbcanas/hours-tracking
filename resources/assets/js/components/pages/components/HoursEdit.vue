@@ -4,7 +4,8 @@
                 
         <input type="text"
             class="form-control" 
-            v-model="hour.value"
+            @input="updateHours($event)"
+            :value="hour.value"
             v-show="hour.edit"
             :ref="'hourInput'+ refkey"
             @keydown.enter="closeEdit"
@@ -15,7 +16,7 @@
 
 <script>
     export default {
-        props: ['type'],
+        props: ['type', 'objReference'],
         data() {
             return {
                 _beforeEditingCache: 0
@@ -49,6 +50,13 @@
                 this.hour.edit = false;
 
                 this.hour.value = this._beforeEditingCache;
+            },
+            updateHours(event) {
+                this.$store.commit('updateHours', {
+                    key: this.objReference.key,
+                    hourType: this.objReference.hourType,
+                    value: event.target.value
+                });
             }
         }
     }

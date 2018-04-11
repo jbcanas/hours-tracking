@@ -11,6 +11,7 @@ class Employee extends Model
 
     public $asYouType = true;
     protected $guarded = [];
+    protected $table = 'Employees';
 
     /**
      * Get the indexable data array for the model.

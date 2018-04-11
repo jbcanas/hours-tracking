@@ -1,0 +1,48 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/recommended",
+        "plugin:vue/base"
+    ],
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "globals": {
+        "companyName": true,
+        "axios": true,
+        "jQuery": true,
+        "_": true
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "vue/html-indent": [
+            "error", 4,
+            {
+                "attribute": 1,
+                "closeBracket": 0,
+                "alignAttributesVertically": true,
+                "ignores": []
+            }
+        ]
+        
+    }
+}
