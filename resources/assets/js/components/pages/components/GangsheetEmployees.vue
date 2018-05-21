@@ -64,6 +64,7 @@
                         <th>{{ companyName }} #</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Reg Status</th>
                         <th :class="{hidden: hideMatsonColumns}">Office use</th>
                         <th>Job Position</th>
                         <th :class="{hidden: hideMatsonColumns}">Labor Code</th>
@@ -101,6 +102,7 @@
                             class="handPointer" 
                             @click="showPopover(employee, 'lname' + key, key)" 
                             :ref="'lname' + key">{{ employee.last_name }}</td>
+                        <td>{{ employee.status }}</td>
                         <td :class="{hidden: hideMatsonColumns}">{{ employee.office_use }}</td>
                         <td>{{ employee.job_position }}</td>
                         <td :class="{hidden: hideMatsonColumns}">{{ employee.labor_code }}</td>
@@ -206,7 +208,7 @@ export default {
             replacement: false,
             searchResults: [],
             rowToInsert: '',
-            selectedEmployee: '',
+            selectedEmployee: null,
             otherHrs: true,
             value: 'value',
             hoursHelper: {
@@ -244,12 +246,14 @@ export default {
             if (!_.isEmpty(employee)) {
                 const rowToUpdate = this.jobInfo.employees[this.rowToInsertKey];
 
+                rowToUpdate.employee_id = employee.id;
                 rowToUpdate.employee_number = employee.employee_number;
                 rowToUpdate.company_number = this.hideMatsonColumns
                     ? employee.apl_number
                     : employee.hl_number;
                 rowToUpdate.first_name = employee.first_name;
                 rowToUpdate.last_name = employee.last_name;
+                rowToUpdate.status = employee.status;
 
                 // hide popover
                 jQuery('body').click();

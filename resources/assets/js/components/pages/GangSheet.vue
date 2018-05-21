@@ -75,6 +75,16 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <label class="control-label col-md-3">Job Location</label>
+                                            <div class="col-md-5">
+                                                <input 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    :value="gangSheet.jobInfo.jobLocation" 
+                                                    @input="updateJobInfo($event, 'jobLocation')">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <label class="control-label col-md-3">Arbitration Award</label>
                                             <div class="col-md-9">
                                                 <label class="custom-control custom-checkbox">
@@ -364,9 +374,22 @@ export default {
             this.$store.dispatch('resetJobInfo');
         },
         saveGangSheet() {
+            let jobInfo = this.$store.state.gangSheet.jobInfo;
+            jobInfo.accountDescription = jobInfo.accountDescription.value;
+
+            _.map(jobInfo.employees, (item) => {
+                item.st = item.st.value;
+                item.st_other = item.st_other.value;
+                item.ot = item.ot.value;
+                item.ot_other = item.ot_other.value;
+                item.pot = item.pot.value;
+                item.pot_other = item.pot_other.value;
+                item.dt = item.dt.value;
+            });
+            
             this.$validator.validateAll().then((result) => {
                 if(result) {
-                    axios.post('/api/gangSheet/store', this.$store.state.gangSheet.jobInfo)
+                    axios.post('/api/gangSheet/store', jobInfo)
                         .then(() => {
                             swal('Success', 'Gang sheet successfully saved!', 'success');
                         })

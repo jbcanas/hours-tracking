@@ -7,6 +7,7 @@
         <input 
             type="text"
             class="form-control" 
+            style="width: 100px"
             :value="hour.value"
             v-show="hour.edit"
             :ref="'hourInput'+ refkey"

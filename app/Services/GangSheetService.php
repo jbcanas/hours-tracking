@@ -14,27 +14,42 @@ class GangSheetService
 {
     public function store(Request $request)
     {
+        $jobSheetNumber = "";
+        $company = env("COMPANY") == "apl" ? "APL" : "HL";
+        $searchJsn = GangSheet::orderBy('id', 'desc')
+            ->orderBy('job_sheet_number', 'desc')
+            ->first();
+
+        if(!empty($searchJsn)) {
+            $matchedJsn = substr($searchJsn->job_sheet_number, strlen($company));
+            $length = strlen($matchedJsn) < 3 ? 3 : strlen($matchedJsn);
+            $jobSheetNumber = $company. str_pad($matchedJsn + 1, $length, 0, STR_PAD_LEFT);
+        } else {
+            $jobSheetNumber = $company. '001';
+        }
+
         $gangSheet = ! empty(GangSheet::find($request->id)) ? GangSheet::find($request->id) : new GangSheet;
         $gangSheet->user_id = /*$request->user_id*/ 0;
-        $gangSheet->account_description = $request->account_description;
-        $gangSheet->job_name = $request->job_name;
-        $gangSheet->job_sheet_number = $request->job_sheet_number;
-        $gangSheet->ilwu_job_number = $request->ilwu_job_number;
-        $gangSheet->work_date = Carbon::parse($request->work_date);
-        $gangSheet->dispatch_date = Carbon::parse($request->dispatch_date);
-        $gangSheet->dispatch_by = $request->dispatch_by;
-        $gangSheet->job_location = $request->job_location;
-        $gangSheet->vessel_barge = $request->vessel_barge;
-        $gangSheet->start_time = $request->start_time;
-        $gangSheet->stop_time = $request->stop_time;
+        $gangSheet->account_description = $request->accountDescription;
+        $gangSheet->job_name = $request->jobName;
+        $gangSheet->ilwu_job_number = $request->ilwuJobNumber;
+        $gangSheet->work_date = Carbon::parse($request->workDate);
+        $gangSheet->dispatch_date = Carbon::parse($request->dispatchDate);
+        $gangSheet->dispatch_by = $request->requestedBy;
+        $gangSheet->job_location = $request->jobLocation;
+        $gangSheet->vessel_barge = $request->vesselBarge;
+        $gangSheet->start_time = $request->startTime;
+        $gangSheet->stop_time = $request->stopTime;
         $gangSheet->moves = $request->moves;
         $gangSheet->gang = $request->gang;
         $gangSheet->voyage = $request->voyage;
         $gangSheet->notes = $request->notes;
-        $gangSheet->coffee_break = $request->coffee_break;
-        $gangSheet->meal_break = $request->meal_break;
-        $gangSheet->early_start = $request->early_start;
-        $gangSheet->arbitrary_award = $request->arbitrary_award;
+        $gangSheet->coffee_break = $request->coffeeBreak;
+        $gangSheet->meal_break = $request->mealBreak;
+        $gangSheet->early_start = $request->earlyStart;
+        $gangSheet->arbitrary_award = $request->arbitrationAward;
+
+        if($request->id == 0) $gangSheet->job_sheet_number = $jobSheetNumber;
 
         $gangSheet->save();
 
