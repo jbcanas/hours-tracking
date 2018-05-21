@@ -491,14 +491,16 @@ export default {
             state.jobInfo = jobInfo();
         },
         updateHours(state, payload) {
-            state.jobInfo.employees[payload.key][payload.hourType].value =
-                payload.value;
+            state.jobInfo.employees[payload.key][payload.hourType].value = payload.value;
             state.jobInfo.employees[payload.key][payload.hourType].edit = false;
         }
     }
 };
 
 function jobInfo() {
+    let ilwu = window.companyName == 'apl' ? 'A' : 'M';
+    ilwu += (new Date()).getYear().toString().substr(-2) + '-';
+
     return {
         id: 0,
         userId: 0,
@@ -513,7 +515,7 @@ function jobInfo() {
         startTime: '',
         jobSheetNumber: '',
         stopTime: '',
-        ilwuJobNumber: '',
+        ilwuJobNumber: ilwu,
         mealBreak: 0,
         coffeeBreak: 0,
         earlyStart: 0,

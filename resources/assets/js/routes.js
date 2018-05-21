@@ -1,9 +1,10 @@
 import VueRouter from 'vue-router';
+import GangSheet from './components/pages/GangSheet';
 
 let routes = [
     {
         path: '/gangSheet',
-        component: require('./components/pages/GangSheet')
+        component: GangSheet
     },
     {
         path: '/',

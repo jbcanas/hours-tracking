@@ -248,10 +248,10 @@ export default {
                 })
         });
 
-        this.$validator.attach({
+        /* this.$validator.attach({
             name: 'grandTotalHrs',
             rules: 'required|verify_hours'
-        });
+        }); */
     },
     methods: {
         totalHrs(item) {

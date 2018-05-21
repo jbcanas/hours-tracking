@@ -86,6 +86,19 @@ class GangSheetService
         if(! $request->has('type') || ! $request->has('value')) return 0;
 
         $gangSheet = GangSheet::where($request->type, $request->value)->first();
+        $gangSheet->employees = GangSheetEmployee::where("driverhour_id", $gangSheet->id)->get();
+
+        $gangSheet->employees->map(function ($item) {
+            $item->st += 0;
+            $item->st_other += 0;
+            $item->ot += 0;
+            $item->ot_other += 0;
+            $item->pot += 0;
+            $item->pot_other += 0;
+            $item->dt += 0;
+
+            return $item;
+        });
 
         return $gangSheet;
     }

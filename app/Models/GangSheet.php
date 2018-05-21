@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GangSheet extends Model
 {
     protected $guarded = [];
+    protected $table = 'DriverHours';
 
     public function employees()
     {
