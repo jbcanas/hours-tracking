@@ -1,12 +1,12 @@
 <template>
     <div 
-        class="m-page--fluid m--skin- m-content--skin-light2 m-header--static m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"
-        :class="sidebarHidden ? 'm-brand--minimize m-aside-left--minimize' : ''">
+        :class="sidebarHidden ? 'm-brand--minimize m-aside-left--minimize' : ''"
+        class="m-page--fluid m--skin- m-content--skin-light2 m-header--static m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
         <div class="m-grid m-grid--hor m-grid--root m-page">
-            <top-bar />
+            <!-- <top-bar /> -->
 
             <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-                <side-bar />
+                <!-- <side-bar /> -->
 				
                 <div class="m-grid__item m-grid__item--fluid m-wrapper">
                     <router-view/>

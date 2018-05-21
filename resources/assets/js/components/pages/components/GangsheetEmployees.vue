@@ -1,6 +1,28 @@
 <template>
     <div>
         <div class="row jobPositionContainer">
+            <div class="col-md-3 hoursHelper">
+                <input 
+                    v-model="hoursHelper.st"
+                    type="text" 
+                    placeholder="st">
+                <input 
+                    v-model="hoursHelper.ot"
+                    type="text" 
+                    placeholder="ot">
+                <input 
+                    v-model="hoursHelper.pot"
+                    type="text" 
+                    placeholder="pot">
+                <input 
+                    v-model="hoursHelper.dt"
+                    type="text" 
+                    placeholder="dt">
+                <button 
+                    type="button" 
+                    class="btn btn-info btn-sm ml-2"
+                    @click="populateHoursHelper">Ok</button>
+            </div>
             <div class="col-md-4">
                 <jobpos :set-job-position-method="setJobPosition"/>
             </div>
@@ -186,7 +208,13 @@ export default {
             rowToInsert: '',
             selectedEmployee: '',
             otherHrs: true,
-            value: 'value'
+            value: 'value',
+            hoursHelper: {
+                st: '',
+                ot: '',
+                pot: '',
+                dt: '',
+            }
         };
     },
     computed: {
@@ -366,6 +394,9 @@ export default {
             loading(true);
 
             this.runSearch(search, loading, this);
+        },
+        populateHoursHelper() {
+            this.$store.commit('populateHoursHelper', this.hoursHelper);
         },
         runSearch: _.debounce((search, loading, vm) => {
             loading(true);

@@ -493,6 +493,14 @@ export default {
         updateHours(state, payload) {
             state.jobInfo.employees[payload.key][payload.hourType].value = payload.value;
             state.jobInfo.employees[payload.key][payload.hourType].edit = false;
+        },
+        populateHoursHelper(state, payload) {
+            _.map(_.reject(state.jobInfo.employees, {job_position: 'Dispatcher'}), (item, key) => {
+                item.st.value = payload.st;
+                item.ot.value = payload.ot;
+                item.pot.value = payload.pot;
+                item.dt.value = payload.dt;
+            });
         }
     }
 };
