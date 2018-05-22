@@ -469,6 +469,9 @@ export default {
         },
         resetJobInfo({ commit }) {
             commit('resetJobInfo');
+        },
+        resetJobInfoAndEmployees({ commit }) {
+            commit('resetJobInfoAndEmployees');
         }
     },
     mutations: {
@@ -489,6 +492,10 @@ export default {
         },
         resetJobInfo(state) {
             state.jobInfo = jobInfo();
+        },
+        resetJobInfoAndEmployees(state) {
+            state.jobInfo = jobInfo();
+            state.jobInfo.employees = [];
         },
         updateHours(state, payload) {
             state.jobInfo.employees[payload.key][payload.hourType].value = payload.value;

@@ -11,6 +11,6 @@ class GangSheet extends Model
 
     public function employees()
     {
-        return $this->hasMany('App\Models\GangSheetEmployee');
+        return $this->hasMany('App\Models\GangSheetEmployee', 'driverhour_id', 'id');
     }
 }

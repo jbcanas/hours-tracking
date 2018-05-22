@@ -23,9 +23,9 @@
                                     <i class="fa fa-plus"/> New
                                 </a>
                                 <a 
+                                    v-b-modal.find 
                                     href="javascript:;" 
-                                    class="btn btn-sm btn-info" 
-                                    v-b-modal.find>
+                                    class="btn btn-sm btn-info">
                                     <i class="fa fa-search"/> Find
                                 </a>
                                 <a 
@@ -51,25 +51,25 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div 
-                                            class="form-group row" 
-                                            :class="{'has-error': errors.has('accountDescription'), hidden: showAccountDescription}">
+                                            :class="{'has-error': errors.has('accountDescription'), hidden: showAccountDescription}" 
+                                            class="form-group row">
                                             <label class="control-label col-md-3">Account Description</label>
                                             <div class="col-md-7">
                                                 <account-description 
-                                                    type="accountDescription" 
                                                     v-validate:accountDescriptionValidate="'required'" 
+                                                    type="accountDescription" 
                                                     data-vv-name="accountDescription"/>
                                                 <span class="invalid-feedback"> Please select an account desc.</span>
                                             </div>
                                         </div>
                                         <div 
-                                            class="form-group row" 
-                                            :class="{'has-error': errors.has('jobName')}">
+                                            :class="{'has-error': errors.has('jobName')}" 
+                                            class="form-group row">
                                             <label class="control-label col-md-3">{{ jobNameLabel }}</label>
                                             <div class="col-md-7">
                                                 <job-name 
-                                                    type="jobName" 
                                                     v-validate:jobNameValidate="'required'" 
+                                                    type="jobName" 
                                                     data-vv-name="jobName"/>
                                                 <span class="invalid-feedback"> Please select a job name.</span>
                                             </div>
@@ -78,9 +78,9 @@
                                             <label class="control-label col-md-3">Job Location</label>
                                             <div class="col-md-5">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.jobLocation" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.jobLocation" 
                                                     @input="updateJobInfo($event, 'jobLocation')">
                                             </div>
                                         </div>
@@ -104,9 +104,9 @@
                                             <label class="control-label col-md-3">Vessel/Barge</label>
                                             <div class="col-md-5">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.vesselBarge" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.vesselBarge" 
                                                     @input="updateJobInfo($event, 'vesselBarge')">
                                             </div>
                                         </div>
@@ -114,21 +114,21 @@
                                             <label class="control-label col-md-3">Voyage</label>
                                             <div class="col-md-5">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.voyage" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.voyage" 
                                                     @input="updateJobInfo($event, 'voyage')">
                                             </div>
                                         </div>
                                         <div 
-                                            class="form-group row" 
-                                            :class="gangSheet.jobInfo.jobSheetNumber == '' ? 'hidden' : ''">
+                                            :class="gangSheet.jobInfo.jobSheetNumber == '' ? 'hidden' : ''" 
+                                            class="form-group row">
                                             <label class="control-label col-md-3">Job Sheet Number</label>
                                             <div class="col-md-3">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.jobSheetNumber" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.jobSheetNumber" 
                                                     disabled>
                                             </div>
                                         </div>
@@ -136,13 +136,13 @@
                                             <label class="control-label col-md-3">ILWU Job Number</label>
                                             <div class="col-md-3">
                                                 <input 
-                                                    type="text" 
+                                                    v-validate="'required|min:5'" 
+                                                    :class="errors.has('ilwuJobNumber') ? 'is-invalid' : ''" 
+                                                    :value="gangSheet.jobInfo.ilwuJobNumber"
+                                                    type="text"
                                                     class="form-control" 
-                                                    :class="errors.has('ilwuJobNumber') ? 'is-invalid' : ''"
-                                                    v-validate="'required|min:5'"
-                                                    :value="gangSheet.jobInfo.ilwuJobNumber" 
-                                                    @input="updateJobInfo($event, 'ilwuJobNumber')"
-                                                    name="ilwuJobNumber">
+                                                    name="ilwuJobNumber"
+                                                    @input="updateJobInfo($event, 'ilwuJobNumber')">
                                                 <span class="invalid-feedback"> Please input a value</span>
                                             </div>
                                         </div>
@@ -150,10 +150,10 @@
                                             <label class="control-label col-md-3">Notes</label>
                                             <div class="col-md-9">
                                                 <textarea 
+                                                    :value="gangSheet.jobInfo.notes" 
                                                     class="form-control" 
                                                     cols="30" 
                                                     rows="3" 
-                                                    :value="gangSheet.jobInfo.notes" 
                                                     @input="updateJobInfo($event, 'notes')"/>
                                             </div>
                                         </div>
@@ -163,9 +163,9 @@
                                             <label class="control-label col-md-3">Requested by</label>
                                             <div class="col-md-4">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.requestedBy" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.requestedBy" 
                                                     @input="updateJobInfo($event, 'requestedBy')">
                                             </div>
                                         </div>
@@ -174,24 +174,24 @@
                                             <div class="col-md-2">
                                                 <datepicker 
                                                     :value="gangSheet.jobInfo.requestDate" 
-                                                    @input="updateJobInfo($event, 'requestDate')" 
                                                     :bootstrap-styling="true" 
-                                                    :format="'MM/dd/yyyy'"/> 
+                                                    :format="'MM/dd/yyyy'" 
+                                                    @input="updateJobInfo($event, 'requestDate')"/> 
                                             </div>
                                         </div>
                                         <div 
-                                            class="form-group row" 
-                                            :class="{'has-error': errors.has('workDate')}">
+                                            :class="{'has-error': errors.has('workDate')}" 
+                                            class="form-group row">
                                             <label class="control-label col-md-3">Work Date</label>
                                             <div class="col-md-2">
                                                 <datepicker 
-                                                    :value="gangSheet.jobInfo.workDate" 
-                                                    @input="updateJobInfo($event, 'workDate')"
+                                                    v-validate="'required|min:5'" 
+                                                    :value="gangSheet.jobInfo.workDate"
                                                     :bootstrap-styling="true"
                                                     :input-class="errors.has('workDate') ? 'is-invalid' : ''"
                                                     :format="'MM/dd/yyyy'" 
-                                                    v-validate="'required|min:5'"
-                                                    name="workDate"/> 
+                                                    name="workDate"
+                                                    @input="updateJobInfo($event, 'workDate')"/> 
                                             </div>
                                             <span class="invalid-feedback"> Please select a date</span>
                                         </div>
@@ -199,9 +199,9 @@
                                             <label class="control-label col-md-3">Start Time</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.startTime" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.startTime" 
                                                     @input="updateJobInfo($event, 'startTime')">
                                             </div>
                                         </div>
@@ -209,9 +209,9 @@
                                             <label class="control-label col-md-3">Stop Time</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.stopTime" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.stopTime" 
                                                     @input="updateJobInfo($event, 'stopTime')">
                                             </div>
                                         </div>
@@ -219,9 +219,9 @@
                                             <label class="control-label col-md-3">Meal Break</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.mealBreak" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.mealBreak" 
                                                     @input="updateJobInfo($event, 'mealBreak')">
                                             </div>
                                         </div>
@@ -229,9 +229,9 @@
                                             <label class="control-label col-md-3">Coffee Break</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.coffeeBreak" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.coffeeBreak" 
                                                     @input="updateJobInfo($event, 'coffeeBreak')">
                                             </div>
                                         </div>
@@ -240,9 +240,9 @@
                                             <label class="control-label col-md-3">Early Start</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.earlyStart" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.earlyStart" 
                                                     @input="updateJobInfo($event, 'earlyStart')">
                                             </div>
                                         </div>
@@ -250,9 +250,9 @@
                                             <label class="control-label col-md-3">Moves</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.moves" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.moves" 
                                                     @input="updateJobInfo($event, 'moves')">
                                             </div>
                                         </div>
@@ -260,9 +260,9 @@
                                             <label class="control-label col-md-3">Gang Shift</label>
                                             <div class="col-md-2">
                                                 <input 
+                                                    :value="gangSheet.jobInfo.gang" 
                                                     type="text" 
                                                     class="form-control" 
-                                                    :value="gangSheet.jobInfo.gang" 
                                                     @input="updateJobInfo($event, 'gang')">
                                             </div>
                                         </div>
@@ -271,8 +271,8 @@
                                         <hr >
                                         <gangsheet-employees 
                                             v-validate:employeesValidate="'required|min_value:2'" 
-                                            data-vv-name="employees" 
-                                            :error-bag="errorBag"/>
+                                            :error-bag="errorBag" 
+                                            data-vv-name="employees"/>
                                     </div>
                                 
                                 </div>
@@ -289,6 +289,7 @@
             title="Find Gang Sheet"
             ok-title="Search"
             ok-variant="info"
+            @show="findModalShow"
             @ok="searchGangSheet">
             <v-switch 
                 v-model="gangSheet.find.ilwu" 
@@ -301,9 +302,9 @@
                 <label class="control-label col-md-2">{{ gangSheet.find.ilwu ? 'ILWU#' : 'JSN#' }}</label>
                 <div class="col-md-9">
                     <input 
+                        v-model="gangSheet.find.value" 
                         type="text" 
-                        class="form-control" 
-                        v-model="gangSheet.find.value">
+                        class="form-control">
                 </div>
             </div>
         </b-modal>
@@ -328,6 +329,15 @@ export default {
         Materials,
         swal
     },
+    data() {
+        return {
+            find: {
+                searchById: true,
+                ilwu: false,
+                value: 0
+            }
+        };
+    },
     computed: {
         gangSheet() {
             return this.$store.state.gangSheet;
@@ -349,6 +359,12 @@ export default {
         },
         errorBag() {
             return this.$validator.errors;
+        }
+    },
+    created() {
+        if(this.$route.query.id !== undefined) {
+            this.find.value = this.$route.query.id;
+            this.searchGangSheet();
         }
     },
     methods: {
@@ -377,7 +393,7 @@ export default {
             let jobInfo = this.$store.state.gangSheet.jobInfo;
             jobInfo.accountDescription = jobInfo.accountDescription.value;
 
-            _.map(jobInfo.employees, (item) => {
+            /* _.map(jobInfo.employees, (item) => {
                 item.st = item.st.value;
                 item.st_other = item.st_other.value;
                 item.ot = item.ot.value;
@@ -385,13 +401,21 @@ export default {
                 item.pot = item.pot.value;
                 item.pot_other = item.pot_other.value;
                 item.dt = item.dt.value;
-            });
-            
+            }); */
+
             this.$validator.validateAll().then((result) => {
                 if(result) {
                     axios.post('/api/gangSheet/store', jobInfo)
-                        .then(() => {
+                        .then((response) => {
                             swal('Success', 'Gang sheet successfully saved!', 'success');
+
+                            this.$store.commit('updateJobInfo', {
+                                type: 'id',
+                                value: response.data.id
+                            });
+                            _.map(response.data.employees, (item) => {
+                                item.id = item.id;
+                            });
                         })
                         .catch(() => {
                             showError('Something went wrong! Please try again.');
@@ -400,13 +424,17 @@ export default {
             });
         },
         searchGangSheet() {
+            let type = this.find.ilwu ? 'ilwu_job_number' : 'job_sheet_number';
+            if(this.find.searchById) type = 'id';
+
             axios.post('/api/gangSheet/find', {
-                type: this.gangSheet.find.ilwu ? 'ilwu_job_number' : 'job_sheet_number',
-                value: this.gangSheet.find.value
+                type: type,
+                value: this.find.value
             })
                 .then((response) => {
-                    this.newGangSheetForm();
+                    this.$store.dispatch('resetJobInfoAndEmployees');
 
+                    this.updateJobInfo(response.data.id, 'id', true);
                     this.updateJobInfo(response.data.arbitrary_award, 'arbitrationAward', true);
                     this.updateJobInfo(response.data.vessel_barge, 'vesselBarge', true);
                     this.updateJobInfo(response.data.voyage, 'voyage', true);
@@ -435,12 +463,14 @@ export default {
                     _.map(response.data.employees, (item) => {
                         this.$store.commit('addEmployee', {
                             id: item.id,
+                            employee_id: item.employee_id,
                             job_position: item.job_position,
                             replacement: item.replacement,
                             employee_number: item.employee_number,
                             company_number: item.company_number,
                             first_name: item.first_name,
                             last_name: item.last_name,
+                            reg_status: item.reg_status,
                             st: {
                                 value: item.st,
                                 edit: false
@@ -483,6 +513,9 @@ export default {
                 .catch(() => {
                     showError('Something went wrong! Please try again.');
                 });
+        },
+        findModalShow() {
+            this.find.searchById = false;
         }
     }
 };

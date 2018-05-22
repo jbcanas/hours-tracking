@@ -57,30 +57,34 @@ class GangSheetService
             $rowid = isset($employeeData['id']) ? $employeeData['id'] : 0;
             $employee = $rowid > 0 ? GangSheetEmployee::find($employeeData['id']) : new GangSheetEmployee;
 
-            $employee->gang_sheet_id = $gangSheet->id;
+            $employee->driverhour_id = $gangSheet->id;
             $employee->employee_id = $employeeData['employee_id'];
-            $employee->ilwu_number = $employeeData['ilwu_number'];
+            $employee->employee_number = $employeeData['employee_number'];
             $employee->company_number = $employeeData['company_number'];
+            $employee->first_name = $employeeData['first_name'];
+            $employee->last_name = $employeeData['last_name'];
             $employee->job_position = $employeeData['job_position'];
-            $employee->registration_status = $employeeData['registration_status'];
+            $employee->reg_status = $employeeData['reg_status'];
 
-            $employee->st = $employeeData['st'];
-            $employee->ot = $employeeData['ot'];
-            $employee->pot = $employeeData['pot'];
-            $employee->dt = $employeeData['dt'];
+            $employee->st = $employeeData['st']['value'];
+            $employee->ot = $employeeData['ot']['value'];
+            $employee->pot = $employeeData['pot']['value'];
+            $employee->dt = $employeeData['dt']['value'];
 
             if(env('COMPANY') == 'apl') {
-                $employee->st_other = $employeeData['st_other'];
-                $employee->ot_other = $employeeData['ot_other'];
-                $employee->pot_other = $employeeData['pot_other'];
+                $employee->st_other = $employeeData['st_other']['value'];
+                $employee->ot_other = $employeeData['ot_other']['value'];
+                $employee->pot_other = $employeeData['pot_other']['value'];
             } else {
-                $employee->office_use = $employeeData['office_use'];
-                $employee->labor_code = $employeeData['labor_code'];
-                $employee->adjust_pay = $employeeData['adjust_pay'];
+                $employee->office_use = $employeeData['office_use']['value'];
+                $employee->labor_code = $employeeData['labor_code']['value'];
+                $employee->adjust_pay = $employeeData['adjust_pay']['value'];
             }
 
             $employee->save();
         }
+
+        $gangSheet->employees = $gangSheet->employees;
 
         return $gangSheet;
     }
