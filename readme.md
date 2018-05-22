@@ -17,7 +17,7 @@ copy `.env.example` to `.env` then setup your own environment file
 
 ## Authors
 
-* **Jay Bryan Cañas** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Jay Bryan Cañas** - *Initial work*
 
 ## License
 
