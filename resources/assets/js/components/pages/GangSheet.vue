@@ -304,7 +304,8 @@
                     <input 
                         v-model="gangSheet.find.value" 
                         type="text" 
-                        class="form-control">
+                        class="form-control"
+                        @keyup.enter="searchGangSheet">
                 </div>
             </div>
         </b-modal>
@@ -392,16 +393,6 @@ export default {
         saveGangSheet() {
             let jobInfo = this.$store.state.gangSheet.jobInfo;
             jobInfo.accountDescription = jobInfo.accountDescription.value;
-
-            /* _.map(jobInfo.employees, (item) => {
-                item.st = item.st.value;
-                item.st_other = item.st_other.value;
-                item.ot = item.ot.value;
-                item.ot_other = item.ot_other.value;
-                item.pot = item.pot.value;
-                item.pot_other = item.pot_other.value;
-                item.dt = item.dt.value;
-            }); */
 
             this.$validator.validateAll().then((result) => {
                 if(result) {
