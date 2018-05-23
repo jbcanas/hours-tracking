@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Employee;
 use App\Models\GangSheet;
 use App\Models\GangSheetEmployee;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 
 
@@ -130,5 +132,98 @@ class GangSheetService
         $employee->delete();
 
         return 'deleted';
+    }
+
+    public function mechTemplate()
+    {
+        $kodiak = Input::get('kodiak');
+        $toolAllowance;
+        $mechanics = Employee::where('mechanic', '!=', '')
+            ->where(function($query) use($kodiak) {
+                if($kodiak == 1) {
+                    $query->where('city', '=', 'kodiak');
+                } else {
+                    $query->where('city', '!=', 'kodiak');
+                }
+            })
+            ->get();
+
+        if(Input::get('toolAllowance') == 1) {
+            $toolAllowance = $this->toolAllowance();
+        }
+
+        $template = [];
+        foreach ($mechanics as $mechanic) {
+            $weeks = '';
+
+            if(! empty($toolAllowance)) {
+                if(array_key_exists($mechanic->id, $toolAllowance)) {
+                    $weeks = $toolAllowance[$mechanic->id];
+                } else {
+                    continue;
+                }
+            }
+
+            $template[] = [
+                'employee_id'   => $mechanic->id,
+                'first_name'   => $mechanic->first_name,
+                'last_name'   => $mechanic->last_name,
+                'job_position'  => $mechanic->mechanic_type . ' ' . $mechanic->mechanic,
+                'employee_number'    => $mechanic->employee_number,
+                'company_number' => $mechanic->apl_number,
+                'office'  => '',
+                'laborc'  => '',
+//                'weeks'  => $weeks
+            ];
+        }
+
+        function sortArrayByArray($type, $array, $orderArray) {
+            $ordered = array();
+            foreach($orderArray as $key) {
+                foreach ($array as &$value) {
+                    if($value[$type] == $key) {
+                        $ordered[] = $value;
+                        unset($value);
+                    }
+
+                }
+            }
+            return $ordered/* + $array*/;
+        }
+
+        if($kodiak == 0) {
+            $sortedArray = sortArrayByArray('employee_id', $template, [
+                855, //mitch miller
+                366, //cesar fernandez
+                1481, //burtis fayram
+                1494, //freddie paradeza
+                1523, //michael parker
+                1209, //whitney nick southworth
+                348, //escalante santiago
+                435, //david gilman
+                1496, //kim sorenson
+                74, //killian baker
+                1469, //ezequiel gonzalez
+                1520, //cleve roll
+                33, //jorge alvarado
+                1210, //audrey southworth
+                708, //lee patrick
+                198, //ariel castillo
+                620, //richard robert karpierz
+                1413, //david zoll
+                615, //bobby kappus,
+                1544, //james mobley
+                1609 //sean adams
+            ]);
+        } elseif($kodiak == 1) {
+            $sortedArray = sortArrayByArray('employee_id', $template, [
+                978, //arek parsley
+                602, //jeremiah johnson
+                1456, //dustin fraser
+                1480, //caleb sargent
+            ]);
+        }
+
+        return $sortedArray;
     }
 }

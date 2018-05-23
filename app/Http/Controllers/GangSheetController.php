@@ -33,4 +33,9 @@ class GangSheetController extends Controller
     {
         return $this->gangSheetService->deleteEmployee($request);
     }
+
+    public function mechTemplate(Request $request)
+    {
+        return $this->gangSheetService->mechTemplate($request);
+    }
 }

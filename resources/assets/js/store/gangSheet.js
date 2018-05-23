@@ -115,6 +115,10 @@ export default {
                 jobNames: 'SHOP-TEMP'
             },
             {
+                value: 'SHOP-DUT',
+                jobNames: 'SHOP-MECHANICS'
+            },
+            {
                 value: 'STEADYMEN',
                 jobNames: 'YARD DAWG'
             },
@@ -472,6 +476,9 @@ export default {
         },
         resetJobInfoAndEmployees({ commit }) {
             commit('resetJobInfoAndEmployees');
+        },
+        resetEmployees({ commit }) {
+            commit('resetEmployees');
         }
     },
     mutations: {
@@ -495,6 +502,9 @@ export default {
         },
         resetJobInfoAndEmployees(state) {
             state.jobInfo = jobInfo();
+            state.jobInfo.employees = [];
+        },
+        resetEmployees(state) {
             state.jobInfo.employees = [];
         },
         updateHours(state, payload) {
