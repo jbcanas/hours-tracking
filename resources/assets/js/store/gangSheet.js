@@ -116,7 +116,21 @@ export default {
             },
             {
                 value: 'SHOP-DUT',
-                jobNames: 'SHOP-MECHANICS'
+                jobNames: [
+                    'SHOP-MECHANICS',
+                    'TOOL ALLOWANCE'
+                ]
+            },
+            {
+                value: 'SHOP-KOD',
+                jobNames: [
+                    'SHOP-MECHANICS',
+                    'TOOL ALLOWANCE'
+                ]
+            },
+            {
+                value: 'STEADYMEN-KOD',
+                jobNames: 'YARD DAWG',
             },
             {
                 value: 'STEADYMEN',

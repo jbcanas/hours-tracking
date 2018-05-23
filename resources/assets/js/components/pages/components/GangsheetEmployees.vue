@@ -1,7 +1,9 @@
 <template>
     <div>
         <div class="row jobPositionContainer">
-            <div class="col-md-3 hoursHelper">
+            <div 
+                class="col-md-3 hoursHelper" 
+                style="max-width: 300px">
                 <input 
                     v-model="hoursHelper.st"
                     type="text" 
@@ -26,7 +28,9 @@
             <div class="col-md-4">
                 <jobpos :set-job-position-method="setJobPosition"/>
             </div>
-            <div class="col-md-2">
+            <div 
+                class="col-md-2" 
+                style="max-width: 150px">
                 <b-form-checkbox 
                     id="checkbox1"
                     v-model="replacement">
@@ -35,29 +39,29 @@
             </div>
             <div class="col-md-3">
                 <a 
-                    href="javascript:;" 
+                    :class="jobPositionEmpty" 
+                    href="javascript:;"
                     class="btn blue-steel"
-                    :class="jobPositionEmpty"
                     @click="addEmployee"> <i class="fa fa-plus"/></a>
             </div>
         </div>
 
         <div 
             id="gangSheetEmployeesTableContainer" 
-            class="row" 
-            :class="{'has-error': errors.has('employees') || errors.has('grandTotalHrs')}">
+            :class="{'has-error': errors.has('employees') || errors.has('grandTotalHrs')}" 
+            class="row">
             <div 
+                v-show="errors.has('employees')" 
                 class="alert alert-danger" 
-                role="alert" 
-                v-show="errors.has('employees')">Please insert at least 1 employee(excluding the dispatcher) before saving the gang sheet.</div>
+                role="alert">Please insert at least 1 employee(excluding the dispatcher) before saving the gang sheet.</div>
             <div 
+                v-show="errors.has('grandTotalHrs')" 
                 class="alert alert-danger" 
-                role="alert" 
-                v-show="errors.has('grandTotalHrs')">{{ errors.first('grandTotalHrs') }}</div>
+                role="alert">{{ errors.first('grandTotalHrs') }}</div>
 
             <table 
                 id="gangSheetEmployeesTable" 
-                class="table table-condensed table-hover table-bordered m-table m-table--head-bg-brand">
+                class="table table-condensed table-hover table-sm table-bordered m-table m-table--head-bg-brand">
                 <thead>
                     <tr>
                         <th>ILWU #</th>
@@ -83,25 +87,25 @@
                 </thead>
                 <tbody>
                     <tr 
-                        :class="employee.replacement ? 'replacementEmployeeRow' : ''" 
-                        v-for="(employee, key) in jobInfo.employees"
+                        v-for="(employee, key) in jobInfo.employees" 
+                        :class="employee.replacement ? 'replacementEmployeeRow' : ''"
                         :key="key">
                         <td 
+                            :ref="'ilwuType' + key" 
                             class="handPointer" 
-                            @click="showPopover(employee, 'ilwuType' + key, key)" 
-                            :ref="'ilwuType' + key">{{ employee.employee_number }}</td>
+                            @click="showPopover(employee, 'ilwuType' + key, key)">{{ employee.employee_number }}</td>
                         <td 
+                            :ref="'companyType' + key" 
                             class="handPointer" 
-                            @click="showPopover(employee, 'companyType' + key, key)" 
-                            :ref="'companyType' + key">{{ employee.company_number }}</td>
+                            @click="showPopover(employee, 'companyType' + key, key)">{{ employee.company_number }}</td>
                         <td 
-                            class="handPointer" 
-                            @click="showPopover(employee, 'fname' + key, key)" 
-                            :ref="'fname' + key">{{ employee.first_name }}</td>
+                            :ref="'fname' + key" 
+                            class="handPointer text-uppercase" 
+                            @click="showPopover(employee, 'fname' + key, key)">{{ employee.first_name }}</td>
                         <td 
-                            class="handPointer" 
-                            @click="showPopover(employee, 'lname' + key, key)" 
-                            :ref="'lname' + key">{{ employee.last_name }}</td>
+                            :ref="'lname' + key" 
+                            class="handPointer text-uppercase" 
+                            @click="showPopover(employee, 'lname' + key, key)">{{ employee.last_name }}</td>
                         <td>{{ employee.status }}</td>
                         <td :class="{hidden: hideMatsonColumns}">{{ employee.office_use }}</td>
                         <td>{{ employee.job_position }}</td>
@@ -153,6 +157,7 @@
                                 href="javascript:;" 
                                 title="Delete" 
                                 class="btn btn-sm red"
+                                style="padding: 2px 12px"
                                 @click="removeEmployee(key)"> <i class="fa fa-times"/>
                             </a>
                         </td>
@@ -174,13 +179,13 @@
                 </h3>
                 <div class="popover-body">
                     <v-select 
-                        label="resultLabel" 
+                        ref="employeeSearchElement" 
                         v-model="selectedEmployee"
-                        @search="getOptions" 
                         :options="searchResults" 
-                        :filterable="false"
+                        :filterable="false" 
                         :placeholder="employeePopoverPlaceholder"
-                        ref="employeeSearchElement"/>
+                        label="resultLabel"
+                        @search="getOptions"/>
                 </div>
             </div>
         </div>

@@ -57,6 +57,7 @@
                                             <div class="col-md-7">
                                                 <account-description 
                                                     v-validate:accountDescriptionValidate="'required'" 
+                                                    :mechanics-template="mechanicsTemplate"
                                                     type="accountDescription" 
                                                     data-vv-name="accountDescription"/>
                                                 <span class="invalid-feedback"> Please select an account desc.</span>
@@ -69,6 +70,7 @@
                                             <div class="col-md-7">
                                                 <job-name 
                                                     v-validate:jobNameValidate="'required'" 
+                                                    :mechanics-template="mechanicsTemplate"
                                                     type="jobName" 
                                                     data-vv-name="jobName"/>
                                                 <span class="invalid-feedback"> Please select a job name.</span>
@@ -507,6 +509,74 @@ export default {
         },
         findModalShow() {
             this.find.searchById = false;
+        },
+        mechanicsTemplate(jobName) {
+            let toolAllowance = jobName == 'TOOL ALLOWANCE' ? 1 : 0;
+
+            if(this.gangSheet.jobInfo.accountDescription.value != 'SHOP-DUT') toolAllowance = 0;
+
+            axios.post('/api/gangSheet/mechTemplate', {
+                kodiak: this.gangSheet.jobInfo.accountDescription.value == 'SHOP-KOD' ? 1 : 0,
+                toolAllowance: toolAllowance,
+            })
+                .then((response) => {
+                    this.$store.dispatch('resetEmployees');
+
+                    _.map(response.data, (item) => {
+                        const st = item.weeks !== null ? item.weeks : null;
+
+                        this.$store.commit('addEmployee', {
+                            id: 0,
+                            employee_id: item.employee_id,
+                            job_position: item.job_position,
+                            replacement: item.replacement,
+                            employee_number: item.employee_number,
+                            company_number: item.company_number,
+                            first_name: item.first_name,
+                            last_name: item.last_name,
+                            reg_status: item.reg_status,
+                            st: {
+                                value: st,
+                                edit: false
+                            },
+                            ot: {
+                                value: null,
+                                edit: false
+                            },
+                            pot: {
+                                value: null,
+                                edit: false
+                            },
+                            st_other: {
+                                value: null,
+                                edit: false
+                            },
+                            ot_other: {
+                                value: null,
+                                edit: false
+                            },
+                            pot_other: {
+                                value: null,
+                                edit: false
+                            },
+                            dt: {
+                                value: null,
+                                edit: false
+                            },
+                            pl: {
+                                value: null,
+                                edit: false
+                            },
+                            adjust_pay: {
+                                value: null,
+                                edit: false
+                            }
+                        });
+                    });
+                })
+                .catch(() => {
+                    // showError('Something went wrong! Please try again.');
+                });
         }
     }
 };

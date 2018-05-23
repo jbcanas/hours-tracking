@@ -8,6 +8,7 @@ use App\Models\GangSheetEmployee;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 
@@ -154,7 +155,7 @@ class GangSheetService
 
         $template = [];
         foreach ($mechanics as $mechanic) {
-            $weeks = '';
+            $weeks = null;
 
             if(! empty($toolAllowance)) {
                 if(array_key_exists($mechanic->id, $toolAllowance)) {
@@ -173,7 +174,7 @@ class GangSheetService
                 'company_number' => $mechanic->apl_number,
                 'office'  => '',
                 'laborc'  => '',
-//                'weeks'  => $weeks
+                'weeks'  => $weeks
             ];
         }
 
@@ -225,5 +226,29 @@ class GangSheetService
         }
 
         return $sortedArray;
+    }
+
+    protected function toolAllowance()
+    {
+        $result = [];
+        $query = DB::table('DriverHours')
+            ->join('Dispatchs', 'DriverHours.id', '=', 'Dispatchs.driverhour_id')
+            ->join('Employees', 'Dispatchs.employee_id', '=', 'Employees.id')
+            ->where('DriverHours.work_date', '>=', date("Y-m-d", strtotime("first day of January")))
+            ->where('DriverHours.work_date', '<=', date("Y-m-d", strtotime("last day of December")))
+            ->where('DriverHours.account_description', '=', 'SHOP-DUT')
+            ->where('DriverHours.job_name', '=', 'SHOP-MECHANICS')
+            ->where('Dispatchs.employee_id', '>', 0)
+            ->groupBy('Dispatchs.employee_id')
+            ->get(array(
+                DB::raw('Employees.id as empid'),
+                DB::raw('COUNT(Dispatchs.employee_id) as weeks'),
+            ));
+
+        foreach ($query as $employee) {
+            $result[$employee->empid] = $employee->weeks;
+        }
+
+        return $result;
     }
 }
