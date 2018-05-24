@@ -294,7 +294,7 @@
             @show="findModalShow"
             @ok="searchGangSheet">
             <v-switch 
-                v-model="gangSheet.find.ilwu" 
+                v-model="find.ilwu" 
                 on="" 
                 off="ILWU Job #"/>
             
@@ -304,7 +304,7 @@
                 <label class="control-label col-md-2">{{ gangSheet.find.ilwu ? 'ILWU#' : 'JSN#' }}</label>
                 <div class="col-md-9">
                     <input 
-                        v-model="gangSheet.find.value" 
+                        v-model="find.value" 
                         type="text" 
                         class="form-control"
                         @keyup.enter="searchGangSheet">
@@ -337,7 +337,7 @@ export default {
             find: {
                 searchById: true,
                 ilwu: false,
-                value: 0
+                value: null
             }
         };
     },
@@ -444,14 +444,17 @@ export default {
                     this.updateJobInfo(response.data.moves, 'moves', true);
                     this.updateJobInfo(response.data.gang, 'gang', true);
 
+                    let accountDescription = _.find(this.gangSheet.accountDescriptions, {value: response.data.account_description});
                     this.$store.commit('updateJobInfo', {
                         type: 'accountDescription',
-                        value: response.data.account_description
+                        value: accountDescription
                     });
-                    this.$store.commit('updateJobInfo', {
-                        type: 'jobName',
-                        value: response.data.job_name
-                    });
+                    setTimeout(() => {
+                        this.$store.commit('updateJobInfo', {
+                            type: 'jobName',
+                            value: response.data.job_name
+                        });
+                    }, 5);
 
                     _.map(response.data.employees, (item) => {
                         this.$store.commit('addEmployee', {

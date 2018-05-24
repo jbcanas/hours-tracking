@@ -14,12 +14,6 @@ export default {
     components: {
         vSelect
     },
-    props: {
-        mechanicsTemplate: {
-            type: Function,
-            default: null
-        }
-    },
     computed: {
         list() {
             return this.$store.state.gangSheet.accountDescriptions;
