@@ -2,6 +2,7 @@
     <v-select 
         v-model="infoModel" 
         :options="list" 
+        :disabled="disableInputs"
         label="name" 
         placeholder="Select a job name"/>
 </template>
@@ -18,6 +19,10 @@ export default {
         mechanicsTemplate: {
             type: Function,
             default: null
+        },
+        disableInputs: {
+            type: Boolean,
+            default: false,
         }
     },
     computed: {

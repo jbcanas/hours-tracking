@@ -1,16 +1,16 @@
 <template>
     <div>
         <span 
-            @click="toggleEdit" 
-            v-show="! hour.edit">{{ hour.value }}</span>
+            v-show="! hour.edit" 
+            @click="toggleEdit">{{ hour.value }}</span>
                 
         <input 
-            type="text"
-            class="form-control" 
-            style="width: 100px"
-            :value="hour.value"
             v-show="hour.edit"
+            :value="hour.value" 
             :ref="'hourInput'+ refkey"
+            type="text"
+            class="form-control"
+            style="width: 100px"
             @keydown.enter="updateHours($event)"
             @keydown.esc="cancelEdit"
             @blur="updateHours($event)">   
@@ -19,7 +19,16 @@
 
 <script>
 export default {
-    props: ['type', 'objReference'],
+    props: {
+        type: {
+            type: Object,
+            default: null
+        },
+        objReference: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             _beforeEditingCache: 0
@@ -35,6 +44,8 @@ export default {
     },
     methods: {
         toggleEdit() {
+            if(this.$store.state.gangSheet.disableInputs) return;
+            
             this.hour.edit = ! this.hour.edit;
             this._beforeEditingCache = this.hour.value;
 
@@ -46,10 +57,10 @@ export default {
                 });
             }
         },
-        closeEdit(ev) {
+        closeEdit() {
             this.hour.edit = false;
         },
-        cancelEdit(ev) {
+        cancelEdit() {
             this.hour.edit = false;
 
             this.hour.value = this._beforeEditingCache;

@@ -6,22 +6,27 @@
                 style="max-width: 300px">
                 <input 
                     v-model="hoursHelper.st"
+                    :disabled="disableInputs"
                     type="text" 
                     placeholder="st">
                 <input 
                     v-model="hoursHelper.ot"
+                    :disabled="disableInputs"
                     type="text" 
                     placeholder="ot">
                 <input 
                     v-model="hoursHelper.pot"
+                    :disabled="disableInputs"
                     type="text" 
                     placeholder="pot">
                 <input 
                     v-model="hoursHelper.dt"
+                    :disabled="disableInputs"
                     type="text" 
                     placeholder="dt">
                 <button 
-                    type="button" 
+                    :disabled="disableInputs" 
+                    type="button"
                     class="btn btn-info btn-sm ml-2"
                     @click="populateHoursHelper">Ok</button>
             </div>
@@ -106,7 +111,7 @@
                             :ref="'lname' + key" 
                             class="handPointer text-uppercase" 
                             @click="showPopover(employee, 'lname' + key, key)">{{ employee.last_name }}</td>
-                        <td>{{ employee.status }}</td>
+                        <td>{{ employee.reg_status }}</td>
                         <td :class="{hidden: hideMatsonColumns}">{{ employee.office_use }}</td>
                         <td>{{ employee.job_position }}</td>
                         <td :class="{hidden: hideMatsonColumns}">{{ employee.labor_code }}</td>
@@ -244,7 +249,10 @@ export default {
         ...mapGetters({
             jobNameState: 'getJobName',
             grandTotalHrs: 'calculateGrandTotalHrs'
-        })
+        }),
+        disableInputs() {
+            return this.$store.state.gangSheet.disableInputs;
+        }
     },
     watch: {
         selectedEmployee(employee) {
@@ -258,7 +266,7 @@ export default {
                     : employee.hl_number;
                 rowToUpdate.first_name = employee.first_name;
                 rowToUpdate.last_name = employee.last_name;
-                rowToUpdate.status = employee.status;
+                rowToUpdate.reg_status = employee.status;
 
                 // hide popover
                 jQuery('body').click();
@@ -365,26 +373,17 @@ export default {
             });
         },
         showPopover(employee, refElement, key) {
-            const offset = jQuery(this.$refs[refElement]).offset(),
-                posY =
-                    offset.top -
-                    jQuery('#gangSheetEmployeesTable')
-                        .parent()
-                        .offset().top +
-                    122,
-                posX =
-                    offset.left -
-                    jQuery('#gangSheetEmployeesTable')
-                        .parent()
-                        .offset().left +
-                    86;
+            if(this.disableInputs) return;
 
-            jQuery('#employeePopover')
-                .removeClass('show hidden')
-                .css({
-                    left: posX,
-                    top: posY
-                });
+            const pos = jQuery(this.$refs[refElement]).position();
+            const width = jQuery(this.$refs[refElement]).outerWidth();
+
+            //show the menu directly over the placeholder
+            jQuery('#employeePopover').css({
+                position: 'absolute',
+                top: pos.top + 51 + 'px',
+                left: (pos.left + width) + 'px'
+            }).show();
 
             this.selectedEmployee = null;
             this.rowToInsertKey = key;

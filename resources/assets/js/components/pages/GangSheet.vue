@@ -3,7 +3,7 @@
         <div class="m-subheader ">
             <div class="d-flex align-items-center">
                 <div class="mr-auto">
-                    <h3 class="m-subheader__title "> Gang Sheet </h3>
+                    <h3 class="m-subheader__title "> Employee Job Hours </h3>
                 </div>
             </div>
         </div>
@@ -17,28 +17,36 @@
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
                                 <a 
-                                    href="javascript:;"
+                                    href="javascript:void(0);"
                                     class="btn btn-sm btn-info" 
                                     @click="newGangSheetForm()">
                                     <i class="fa fa-plus"/> New
                                 </a>
                                 <a 
                                     v-b-modal.find 
-                                    href="javascript:;" 
+                                    href="javascript:void(0);" 
                                     class="btn btn-sm btn-info">
                                     <i class="fa fa-search"/> Find
                                 </a>
                                 <a 
-                                    href="javascript:;" 
+                                    href="javascript:void(0);" 
                                     class="btn btn-sm btn-danger" 
                                     @click="newGangSheetForm()">
                                     <i class="fa fa-minus"/> Cancel
                                 </a>
+                                <a 
+                                    :class="{hidden: showEditButton}"
+                                    href="javascript:void(0);"
+                                    class="btn btn-sm btn-info" 
+                                    @click="editGangSheet()">
+                                    <i class="fa fa-pencil"/> Edit
+                                </a>
                             </div>
                             <div class="m-portlet__head-tools">
                                 <a 
-                                    class="btn btn-sm btn-info"
-                                    href="javascript:;" 
+                                    :class="{disabled: disableInputs}"
+                                    class="btn btn-sm btn-info" 
+                                    href="javascript:void(0);"
                                     @click="saveGangSheet()">
                                     <i class="fa fa-external-link"/> Save
                                 </a>
@@ -58,7 +66,8 @@
                                                 <account-description 
                                                     v-validate:accountDescriptionValidate="'required'" 
                                                     :mechanics-template="mechanicsTemplate"
-                                                    type="accountDescription" 
+                                                    :disable-inputs="disableInputs" 
+                                                    type="accountDescription"
                                                     data-vv-name="accountDescription"/>
                                                 <span class="invalid-feedback"> Please select an account desc.</span>
                                             </div>
@@ -71,6 +80,7 @@
                                                 <job-name 
                                                     v-validate:jobNameValidate="'required'" 
                                                     :mechanics-template="mechanicsTemplate"
+                                                    :disable-inputs="disableInputs" 
                                                     type="jobName" 
                                                     data-vv-name="jobName"/>
                                                 <span class="invalid-feedback"> Please select a job name.</span>
@@ -81,6 +91,7 @@
                                             <div class="col-md-5">
                                                 <input 
                                                     :value="gangSheet.jobInfo.jobLocation" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'jobLocation')">
@@ -92,6 +103,7 @@
                                                 <label class="custom-control custom-checkbox">
                                                     <input 
                                                         :checked="gangSheet.jobInfo.arbitrationAward"  
+                                                        :disabled="disableInputs"
                                                         type="checkbox" 
                                                         class="custom-control-input"
                                                         @change="updateJobInfo($event, 'arbitrationAward')">
@@ -107,6 +119,7 @@
                                             <div class="col-md-5">
                                                 <input 
                                                     :value="gangSheet.jobInfo.vesselBarge" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'vesselBarge')">
@@ -117,13 +130,14 @@
                                             <div class="col-md-5">
                                                 <input 
                                                     :value="gangSheet.jobInfo.voyage" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'voyage')">
                                             </div>
                                         </div>
                                         <div 
-                                            :class="gangSheet.jobInfo.jobSheetNumber == '' ? 'hidden' : ''" 
+                                            :class="gangSheet.jobInfo.id < 1 ? 'hidden' : ''" 
                                             class="form-group row">
                                             <label class="control-label col-md-3">Job Sheet Number</label>
                                             <div class="col-md-3">
@@ -141,6 +155,7 @@
                                                     v-validate="'required|min:5'" 
                                                     :class="errors.has('ilwuJobNumber') ? 'is-invalid' : ''" 
                                                     :value="gangSheet.jobInfo.ilwuJobNumber"
+                                                    :disabled="disableInputs"
                                                     type="text"
                                                     class="form-control" 
                                                     name="ilwuJobNumber"
@@ -153,6 +168,7 @@
                                             <div class="col-md-9">
                                                 <textarea 
                                                     :value="gangSheet.jobInfo.notes" 
+                                                    :disabled="disableInputs"
                                                     class="form-control" 
                                                     cols="30" 
                                                     rows="3" 
@@ -166,6 +182,7 @@
                                             <div class="col-md-4">
                                                 <input 
                                                     :value="gangSheet.jobInfo.requestedBy" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'requestedBy')">
@@ -176,6 +193,7 @@
                                             <div class="col-md-2">
                                                 <datepicker 
                                                     :value="gangSheet.jobInfo.requestDate" 
+                                                    :disabled="disableInputs" 
                                                     :bootstrap-styling="true" 
                                                     :format="'MM/dd/yyyy'" 
                                                     @input="updateJobInfo($event, 'requestDate')"/> 
@@ -189,9 +207,10 @@
                                                 <datepicker 
                                                     v-validate="'required|min:5'" 
                                                     :value="gangSheet.jobInfo.workDate"
-                                                    :bootstrap-styling="true"
+                                                    :bootstrap-styling="true" 
                                                     :input-class="errors.has('workDate') ? 'is-invalid' : ''"
-                                                    :format="'MM/dd/yyyy'" 
+                                                    :format="'MM/dd/yyyy'"
+                                                    :disabled="disableInputs" 
                                                     name="workDate"
                                                     @input="updateJobInfo($event, 'workDate')"/> 
                                             </div>
@@ -202,6 +221,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.startTime" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'startTime')">
@@ -212,6 +232,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.stopTime" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'stopTime')">
@@ -222,6 +243,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.mealBreak" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'mealBreak')">
@@ -232,6 +254,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.coffeeBreak" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'coffeeBreak')">
@@ -243,6 +266,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.earlyStart" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'earlyStart')">
@@ -253,6 +277,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.moves" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'moves')">
@@ -263,6 +288,7 @@
                                             <div class="col-md-2">
                                                 <input 
                                                     :value="gangSheet.jobInfo.gang" 
+                                                    :disabled="disableInputs"
                                                     type="text" 
                                                     class="form-control" 
                                                     @input="updateJobInfo($event, 'gang')">
@@ -274,6 +300,7 @@
                                         <gangsheet-employees 
                                             v-validate:employeesValidate="'required|min_value:2'" 
                                             :error-bag="errorBag" 
+                                            :disable-inputs="disableInputs"
                                             data-vv-name="employees"/>
                                     </div>
                                 
@@ -362,6 +389,12 @@ export default {
         },
         errorBag() {
             return this.$validator.errors;
+        },
+        showEditButton() {
+            return this.$store.state.gangSheet.jobInfo.id > 0 ? false : true;
+        },
+        disableInputs() {
+            return this.$store.state.gangSheet.disableInputs;
         }
     },
     created() {
@@ -431,6 +464,7 @@ export default {
                     this.updateJobInfo(response.data.arbitrary_award, 'arbitrationAward', true);
                     this.updateJobInfo(response.data.vessel_barge, 'vesselBarge', true);
                     this.updateJobInfo(response.data.voyage, 'voyage', true);
+                    this.updateJobInfo(response.data.job_sheet_number, 'jobSheetNumber', true);
                     this.updateJobInfo(response.data.ilwu_job_number, 'ilwuJobNumber', true);
                     this.updateJobInfo(response.data.notes, 'notes', true);
                     this.updateJobInfo(response.data.requested_by, 'requestedBy', true);
@@ -505,6 +539,8 @@ export default {
                             }
                         });
                     });
+
+                    this.$store.commit('setDisableInputs', true);
                 })
                 .catch(() => {
                     showError('Something went wrong! Please try again.');
@@ -580,6 +616,9 @@ export default {
                 .catch(() => {
                     // showError('Something went wrong! Please try again.');
                 });
+        },
+        editGangSheet() {
+            this.$store.commit('setDisableInputs', false);
         }
     }
 };

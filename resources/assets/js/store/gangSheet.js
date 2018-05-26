@@ -457,7 +457,8 @@ export default {
                 name: 'Yard Dawg Skilled 5-yr',
                 company: 'both'
             }
-        ]
+        ],
+        disableInputs: false
     },
     getters: {
         getJobName: state => state.jobInfo.jobName,
@@ -493,7 +494,7 @@ export default {
         },
         resetEmployees({ commit }) {
             commit('resetEmployees');
-        }
+        },
     },
     mutations: {
         setAccountDescriptions(state, payload) {
@@ -520,6 +521,9 @@ export default {
         },
         resetEmployees(state) {
             state.jobInfo.employees = [];
+        },
+        setDisableInputs(state, payload) {
+            state.disableInputs = payload;
         },
         updateHours(state, payload) {
             state.jobInfo.employees[payload.key][payload.hourType].value = payload.value;

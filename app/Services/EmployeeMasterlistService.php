@@ -21,6 +21,7 @@ class EmployeeMasterlistService
 
         $result->map(function ($item) {
             $item->resultLabel = $item->first_name. ' ' .$item->last_name;
+            $item->reg_status = $item->status;
 
             return $item;
         });

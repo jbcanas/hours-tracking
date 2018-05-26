@@ -2,6 +2,7 @@
     <v-select 
         v-model="infoModel" 
         :options="list" 
+        :disabled="disableInputs"
         label="value" 
         placeholder="Select an account description"/>
 </template>
@@ -13,6 +14,12 @@ export default {
     name: 'AccountDescription',
     components: {
         vSelect
+    },
+    props: {
+        disableInputs: {
+            type: Boolean,
+            default: false,
+        }
     },
     computed: {
         list() {
