@@ -458,7 +458,8 @@ export default {
                 company: 'both'
             }
         ],
-        disableInputs: false
+        disableInputs: false,
+        jobPosition: ''
     },
     getters: {
         getJobName: state => state.jobInfo.jobName,
@@ -514,10 +515,14 @@ export default {
         },
         resetJobInfo(state) {
             state.jobInfo = jobInfo();
+            state.disableInputs = false;
+            state.jobPosition = '';
         },
         resetJobInfoAndEmployees(state) {
             state.jobInfo = jobInfo();
             state.jobInfo.employees = [];
+            state.disableInputs = false;
+            state.jobPosition = '';
         },
         resetEmployees(state) {
             state.jobInfo.employees = [];
@@ -536,6 +541,9 @@ export default {
                 item.pot.value = payload.pot;
                 item.dt.value = payload.dt;
             });
+        },
+        setJobPosition(state, payload) {
+            state.jobPosition = payload;
         }
     }
 };

@@ -15,12 +15,6 @@ export default {
     components: {
         vSelect
     },
-    props: {
-        disableInputs: {
-            type: Boolean,
-            default: false,
-        }
-    },
     computed: {
         list() {
             return this.$store.state.gangSheet.accountDescriptions;
@@ -47,6 +41,9 @@ export default {
                     value: jobNames.length > 1 ? '' : value.jobNames
                 });
             }
+        },
+        disableInputs() {
+            return this.$store.state.gangSheet.disableInputs;
         }
     },
     mounted() {

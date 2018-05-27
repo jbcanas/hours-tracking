@@ -31,7 +31,7 @@
                     @click="populateHoursHelper">Ok</button>
             </div>
             <div class="col-md-4">
-                <jobpos :set-job-position-method="setJobPosition"/>
+                <jobpos />
             </div>
             <div 
                 class="col-md-2" 
@@ -214,7 +214,6 @@ export default {
     },
     data() {
         return {
-            jobPosition: '',
             replacement: false,
             searchResults: [],
             rowToInsert: '',
@@ -234,7 +233,7 @@ export default {
             return this.$store.state.gangSheet.jobInfo;
         },
         jobPositionEmpty() {
-            return this.jobPosition == '' ? 'hidden' : '';
+            return this.$store.state.gangSheet.jobPosition == '' ? 'hidden' : '';
         },
         hideMatsonColumns() {
             return companyName == 'matson' ? false : true;
@@ -319,12 +318,9 @@ export default {
 
             return total;
         },
-        setJobPosition(value) {
-            this.jobPosition = value;
-        },
         addEmployee() {
             this.$store.commit('addEmployee', {
-                job_position: this.jobPosition,
+                job_position: this.$store.state.gangSheet.jobPosition,
                 replacement: this.replacement,
                 st: {
                     value: 0,
@@ -366,6 +362,7 @@ export default {
 
             // resets replacement checkbox to un-checked state
             this.replacement = false;
+            window.scrollTo(0,document.body.scrollHeight);
         },
         removeEmployee(key) {
             this.$store.commit('removeEmployee', {

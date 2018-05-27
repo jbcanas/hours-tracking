@@ -19,10 +19,6 @@ export default {
         mechanicsTemplate: {
             type: Function,
             default: null
-        },
-        disableInputs: {
-            type: Boolean,
-            default: false,
         }
     },
     computed: {
@@ -46,6 +42,9 @@ export default {
                     this.mechanicsTemplate(value);
                 }
             }
+        },
+        disableInputs() {
+            return this.$store.state.gangSheet.disableInputs;
         }
     },
     mounted() {
