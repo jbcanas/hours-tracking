@@ -41,6 +41,13 @@
                                     @click="editGangSheet()">
                                     <i class="fa fa-pencil"/> Edit
                                 </a>
+                                <a 
+                                    v-b-modal.deleteGangSheet
+                                    :class="{hidden: hideDeleteButton}"
+                                    href="javascript:void(0);"
+                                    class="btn btn-sm btn-danger">
+                                    <i class="fa fa-remove"/> Delete
+                                </a>
                             </div>
                             <div class="m-portlet__head-tools">
                                 <a 
@@ -314,7 +321,7 @@
 
         <b-modal 
             id="find" 
-            size="sm" 
+            size="md" 
             title="Find Gang Sheet"
             ok-title="Search"
             ok-variant="info"
@@ -336,6 +343,20 @@
                         class="form-control"
                         @keyup.enter="searchGangSheet">
                 </div>
+            </div>
+        </b-modal>
+
+        <b-modal 
+            id="deleteGangSheet" 
+            size="sm" 
+            title="Delete Gang Sheet"
+            ok-title="Proceed"
+            ok-variant="info"
+            @ok="deleteGangSheet">
+            <div 
+                id="deleteGangSheetContainer" 
+                class="form-group row">
+                <p>Are you sure you want to delete this gang sheet?</p>
             </div>
         </b-modal>
         
@@ -395,6 +416,9 @@ export default {
         },
         disableInputs() {
             return this.$store.state.gangSheet.disableInputs;
+        },
+        hideDeleteButton() {
+            return this.$store.state.gangSheet.jobInfo.id < 1 && this.$store.state.gangSheet.disableInputs;
         }
     },
     created() {
@@ -619,6 +643,14 @@ export default {
         },
         editGangSheet() {
             this.$store.commit('setDisableInputs', false);
+        },
+        deleteGangSheet() {
+            axios.post('/api/gangSheet/delete', {
+                id: this.gangSheet.jobInfo.id
+            }).then(() => {
+                swal('Success', 'Gang sheet successfully deleted!', 'success');
+                this.newGangSheetForm();
+            });
         }
     }
 };
