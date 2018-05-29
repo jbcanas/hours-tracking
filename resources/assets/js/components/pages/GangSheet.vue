@@ -426,9 +426,21 @@ export default {
             this.find.value = this.$route.query.id;
             this.searchGangSheet();
         }
+
+        if(this.$route.query.userid !== undefined) {
+            this.$store.commit('updateJobInfo', {
+                type: 'userId',
+                value: this.$route.query.userid
+            });
+
+            this.$store.commit('updateJobInfo', {
+                type: 'requestedBy',
+                value: this.$route.query.requestedby
+            });
+        }
     },
     methods: {
-        updateJobInfo(event, type, findMode = false) {
+        updateJobInfo(event, type, findMode = false) { 
             let value = '';
 
             if(findMode) {

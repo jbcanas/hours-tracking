@@ -32,7 +32,7 @@ class GangSheetService
         }
 
         $gangSheet = ! empty(GangSheet::find($request->id)) ? GangSheet::find($request->id) : new GangSheet;
-        $gangSheet->user_id = /*$request->user_id*/ 0;
+        $gangSheet->user_id = $request->user_id;
         $gangSheet->account_description = $request->accountDescription;
         $gangSheet->job_name = $request->jobName;
         $gangSheet->ilwu_job_number = $request->ilwuJobNumber;
