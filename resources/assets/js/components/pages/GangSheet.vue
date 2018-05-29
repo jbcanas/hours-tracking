@@ -87,7 +87,7 @@
                                                 <job-name 
                                                     v-validate:jobNameValidate="'required'" 
                                                     :mechanics-template="mechanicsTemplate"
-                                                    :disable-inputs="disableInputs" 
+                                                    :find-mode="find.mode"
                                                     type="jobName" 
                                                     data-vv-name="jobName"/>
                                                 <span class="invalid-feedback"> Please select a job name.</span>
@@ -385,7 +385,8 @@ export default {
             find: {
                 searchById: true,
                 ilwu: false,
-                value: null
+                value: null,
+                mode: false
             }
         };
     },
@@ -460,6 +461,7 @@ export default {
         },
         newGangSheetForm() {
             this.$store.dispatch('resetJobInfo');
+            this.find.mode = false;
         },
         saveGangSheet() {
             let jobInfo = this.$store.state.gangSheet.jobInfo;
@@ -576,6 +578,7 @@ export default {
                         });
                     });
 
+                    this.find.mode = true;
                     this.$store.commit('setDisableInputs', true);
                 })
                 .catch(() => {

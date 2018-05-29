@@ -19,6 +19,10 @@ export default {
         mechanicsTemplate: {
             type: Function,
             default: null
+        },
+        findMode: {
+            type: Boolean,
+            default: null
         }
     },
     computed: {
@@ -37,7 +41,8 @@ export default {
 				
                 if(
                     ['SHOP-DUT', 'SHOP-KOD'].includes(this.$store.state.gangSheet.jobInfo.accountDescription.value) &&
-					['SHOP-MECHANICS', 'TOOL ALLOWANCE'].includes(value)
+                    ['SHOP-MECHANICS', 'TOOL ALLOWANCE'].includes(value) &&
+                    !this.findMode
                 ) {
                     this.mechanicsTemplate(value);
                 }
